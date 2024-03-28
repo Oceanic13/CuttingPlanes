@@ -3,7 +3,8 @@
 #include <nlohmann/json.hpp>
 #include <Eigen/Dense>
 
-typedef Eigen::VectorXd Vec;
-typedef Eigen::MatrixXd Mat;
+typedef double Num;
+typedef Eigen::VectorX<Num> Vec;
+typedef Eigen::MatrixX<Num> Mat;
 
 using json = nlohmann::json;

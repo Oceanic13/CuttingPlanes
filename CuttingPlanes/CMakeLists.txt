@@ -6,10 +6,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(CuttingPlanes main.cpp
-    SimplexWrapper.h
+
     Typedefs.h
     CuttingPlanes.h
-    CuttingPlanes.cpp)
+    CuttingPlanes.cpp
+    SoPlexSolver.cpp)
 
 include(GNUInstallDirs)
 install(TARGETS CuttingPlanes
@@ -30,7 +31,7 @@ if (NOT TARGET Eigen3::Eigen)
     FetchContent_MakeAvailable(eigen)
 endif()
 
-if (NOT TARGET SoPlex::SoPlex)
+if (NOT TARGET libsoplex)
     FetchContent_Declare(soplex
         GIT_REPOSITORY https://github.com/scipopt/soplex
         SOURCE_DIR "${EXTERNAL_DIR}/SoPlex"
@@ -47,10 +48,6 @@ if (NOT TARGET nlohmann::json)
     FetchContent_MakeAvailable(json)
 endif()
 
-
-set(SOURCE_FILES
-    main.cpp)
-
-target_link_libraries (CuttingPlanes PUBLIC nlohmann_json::nlohmann_json Eigen3::Eigen)
+target_link_libraries (CuttingPlanes PUBLIC libsoplex nlohmann_json::nlohmann_json Eigen3::Eigen)
 
 

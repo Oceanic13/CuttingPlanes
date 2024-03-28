@@ -2,40 +2,39 @@
 #include <iomanip>
 #include <iostream>
 #include <fstream>
+#include "SoPlexSolver.cpp";
 
 CuttingPlanes::CuttingPlanes(const Vec& c, const Mat& A, const Vec& b, const std::vector<bool>& I)
-    : c(c), A(A), b(b), I(I)
+    : n(c.size()), m(b.size()), c(c), A(A), b(b), I(I)
 {}
 
 void CuttingPlanes::solve()
 {
-    cutting_planes.clear();
-    simplex_solutions.clear();
+    Vec x(n);
 
-    Vec t(2); t << 0, 1;
-    cutting_planes.emplace_back(t, 1);
-    t << 1, 1.5;
-    simplex_solutions.push_back(t);
+    //Vec a(2); a << 0, 1;
+    //add_constraint(a, 1);
+
+    auto s = soplex::SoPlexSolver();
+    s.solve(c, A, b);
+
+
+    //Vec t(2); t << 1, 1.5;
+    //simplex_solutions.push_back(t);
 
     std::cout << "Hello World" << std::endl;
 }
 
 void CuttingPlanes::export_json(const std::string& filename)
 {
-    json j;
-
-    j["system"] = {
-        {"n", c.size()},
-        {"m", b.size()},
+    json j = {
+        {"n", n},
+        {"m", m},
         {"c", c},
-        {"b", b},
-        {"A", A.rowwise()},
-        {"I", I}
-    };
-
-    j["algo"] = {
+        {"I", I},
         {"simplex", simplex_solutions},
-        {"cuts", cutting_planes}
+        {"A", A.rowwise()},
+        {"b", b}
     };
 
     std::cout << std::setw(4) << j << std::endl;
