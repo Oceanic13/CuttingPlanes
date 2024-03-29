@@ -7,8 +7,8 @@ int main()
     Vec b(3); b << 6, 0, 0;
     Vec c(2); c << 0, -1;
 
-    auto cp = CuttingPlanes(c, A, b, {true,true});
-    cp.solve();
+    auto cp = CuttingPlanes();
+    cp.solve(c, A, b, {true,true});
     cp.export_json("/Users/tobiaskohler/Uni/CuttingPlanes/test.json");
 
     return 0;
