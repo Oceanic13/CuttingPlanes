@@ -47,6 +47,7 @@ void CuttingPlanes::solve(const Vec& c, const Mat& A, const Vec& b, const std::v
 
     /* write LP in .lp format */
     simplex.writeFileReal("/Users/tobiaskohler/Uni/CuttingPlanes/soplex.lp", NULL, NULL, NULL);
+    simplex.writeBasisFile("/Users/tobiaskohler/Uni/CuttingPlanes/basis.lp", NULL, NULL, false);
 
     std::cout << "Hello World" << std::endl;
 }
