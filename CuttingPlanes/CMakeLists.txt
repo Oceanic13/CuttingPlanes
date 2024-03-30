@@ -8,8 +8,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(CuttingPlanes main.cpp
 
     Utils.h
+
+
+    SoPlexSolver.h
     CuttingPlanes.h
-    CuttingPlanes.cpp
 )
 
 include(GNUInstallDirs)
