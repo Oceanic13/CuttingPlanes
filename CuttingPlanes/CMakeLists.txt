@@ -5,13 +5,23 @@ project(CuttingPlanes LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(CuttingPlanes main.cpp
+set(LIBS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs")
+set(EXTERNAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external")
+
+include_directories("libs/")
+file(GLOB_RECURSE LIBS_CPP "${LIBS_DIR}/*.cpp")
+file(GLOB_RECURSE LIBS_H "${LIBS_DIR}/*.h")
+
+add_executable(CuttingPlanes
+    main.cpp
 
     Utils.h
-
-
     SoPlexSolver.h
     CuttingPlanes.h
+    AlgLibSimplexSolver.h
+
+    ${LIBS_CPP}
+    ${LIBS_H}
 )
 
 include(GNUInstallDirs)
@@ -22,7 +32,6 @@ install(TARGETS CuttingPlanes
 
 include(FetchContent)
 set(FETCHCONTENT_UPDATES_DISCONNECTED TRUE)
-set(EXTERNAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external")
 
 if (NOT TARGET Eigen3::Eigen)
     FetchContent_Declare(eigen

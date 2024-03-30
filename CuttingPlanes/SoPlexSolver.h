@@ -33,7 +33,7 @@ public:
         }
     }
 
-    bool solve(Vec& primal)
+    bool solve(Vec& primal, Vec& dual)
     {
         // solve LP
         soplex::SPxSolver::Status stat;

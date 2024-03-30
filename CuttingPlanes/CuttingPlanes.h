@@ -37,7 +37,9 @@ public:
         for (uint iter = 0; iter < 3; ++iter) {
 
             Vec primal(n);
-            bool success = solver.solve(primal);
+            Vec dual(1);
+
+            bool success = solver.solve(primal, dual);
             simplex_solutions.push_back(primal);
 
             int k = integer_constraint_violation(primal);

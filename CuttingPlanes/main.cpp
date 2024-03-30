@@ -1,3 +1,4 @@
+#include "AlgLibSimplexSolver.h"
 #include "CuttingPlanes.h"
 #include "SoPlexSolver.h"
 
@@ -7,7 +8,7 @@ int main()
     Vec b(2); b << 6, 0;
     Vec c(2); c << 0, -1;
 
-    auto cp = CuttingPlanes<SoPlexSolver>();
+    auto cp = CuttingPlanes<AlgLibSimplexSolver>();
     cp.solve(c, -A, -b, {true,true});
     cp.export_json("/Users/tobiaskohler/Uni/CuttingPlanes/test.json");
 
