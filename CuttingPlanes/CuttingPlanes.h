@@ -43,8 +43,6 @@ public:
             bool success = solver.solve(primal, dual);
             simplex_solutions.push_back(primal);
 
-            std::cout << "Primal = " << primal.transpose() << std::endl;
-            std::cout << "Dual = " << dual.transpose() << std::endl;
 
             int k = integer_constraint_violation(primal);
             if (k == -1) {break;}
