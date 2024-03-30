@@ -7,12 +7,17 @@
 #include <iterator>
 #include <algorithm>
 
-typedef double Num;
-typedef Eigen::VectorX<Num> Vec;
-typedef Eigen::MatrixX<Num> Mat;
-typedef Eigen::Block<Mat, Eigen::Dynamic, Eigen::Dynamic, false> MatBlock;
+template<typename T>
+using VecT = Eigen::VectorX<T>;
+template<typename T>
+using MatT = Eigen::MatrixX<T>;
 
-using json = nlohmann::json;
+using Vecd = VecT<double>;
+using Matd = MatT<double>;
+
+typedef nlohmann::json Json;
+
+inline constexpr bool isInt(const double& d) {return (d-trunc(d))<1e-9;}
 
 template <typename T>
 std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {

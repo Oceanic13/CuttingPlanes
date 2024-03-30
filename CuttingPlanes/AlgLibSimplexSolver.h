@@ -9,7 +9,7 @@ class AlgLibSimplexSolver
 public:
     explicit AlgLibSimplexSolver() {}
 
-    void init(const Vec& c, const Mat& A, const Vec& b)
+    void init(const Vecd& c, const Matd& A, const Vecd& b)
     {
         n = c.size();
         uint m = b.size();
@@ -41,7 +41,7 @@ public:
         alglib::minlpsetlc(state, a, ct);
     }
 
-    bool solve(Vec& primal, Vec& dual)
+    bool solve(Vecd& primal, Vecd& dual)
     {
         alglib::minlpoptimize(state);
         alglib::real_1d_array x;
@@ -55,7 +55,7 @@ public:
         return true;
     }
 
-    void add_constraint(const Vec& a, const double& d)
+    void add_constraint(const Vecd& a, const double& d)
     {
         alglib::minlpaddlc2dense(state, toVec(a), d, INFINITY);
     }
@@ -68,7 +68,7 @@ private:
     uint n;
     alglib::minlpstate state;
 
-    alglib::real_1d_array toVec(const Vec& v)
+    alglib::real_1d_array toVec(const Vecd& v)
     {
         alglib::real_1d_array r;
         r.setcontent(v.size(), v.data());

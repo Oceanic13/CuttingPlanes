@@ -20,8 +20,11 @@ add_executable(CuttingPlanes
     CuttingPlanes.h
     AlgLibSimplexSolver.h
 
-    ${LIBS_CPP}
-    ${LIBS_H}
+
+
+
+    #${LIBS_CPP}
+    #${LIBS_H}
 )
 
 include(GNUInstallDirs)
@@ -59,6 +62,9 @@ if (NOT TARGET nlohmann::json)
     FetchContent_MakeAvailable(json)
 endif()
 
-target_link_libraries (CuttingPlanes PUBLIC libsoplex nlohmann_json::nlohmann_json Eigen3::Eigen)
+find_package(Boost REQUIRED COMPONENTS system filesystem)
+#include_directories(${Boost_INCLUDE_DIRS})
+
+target_link_libraries (CuttingPlanes PUBLIC Boost::boost libsoplex nlohmann_json::nlohmann_json Eigen3::Eigen)
 
 

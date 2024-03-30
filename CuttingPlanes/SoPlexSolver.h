@@ -7,8 +7,8 @@ class SoPlexSolver
 {
 public:
     explicit SoPlexSolver() {}
-
-    void init(const Vec& c, const Mat& A, const Vec& b)
+    
+    void init(const Vecd& c, const Matd& A, const Vecd& b)
     {
         n = c.size(); // dimensionality
         uint m = b.size(); // number of inequalities
@@ -32,8 +32,8 @@ public:
             soplex.addRowReal( soplex::LPRow(b[i], row,  soplex::infinity));
         }
     }
-
-    bool solve(Vec& primal, Vec& dual)
+    
+    bool solve(Vecd& primal, Vecd& dual)
     {
         // solve LP
         soplex::SPxSolver::Status stat;
@@ -52,8 +52,8 @@ public:
             return false;
         }
     }
-
-    void add_constraint(const Vec& a, const double& d)
+    
+    void add_constraint(const Vecd& a, const double& d)
     {
         soplex::DSVector row(n);
         for (uint j = 0; j < n; ++j) {
