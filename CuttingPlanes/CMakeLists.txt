@@ -19,6 +19,8 @@ add_executable(CuttingPlanes
     SoPlexSolver.h
     CuttingPlanes.h
     AlgLibSimplexSolver.h
+    ToblexSolver.h
+    LinearProgram.h
 
 
 

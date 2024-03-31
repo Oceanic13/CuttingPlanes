@@ -1,16 +1,21 @@
 #pragma once
 
+#include "LinearProgram.h"
 #include "Utils.h"
 #include "alglib/stdafx.h"
 #include "alglib/optimization.h"
 
+namespace CP
+{
 class AlgLibSimplexSolver
 {
 public:
-    explicit AlgLibSimplexSolver() {}
-
-    void init(const Vecd& c, const Matd& A, const Vecd& b)
+    explicit AlgLibSimplexSolver(LinearProgram& problem)
     {
+
+        Vecd c = problem.costCoefficients();
+        Matd A = -problem.constraintMatrix();
+        Vecd b = -problem.constraintVector();
         n = c.size();
         uint m = b.size();
 
@@ -55,9 +60,9 @@ public:
         return true;
     }
 
-    void add_constraint(const Vecd& a, const double& d)
+    void addConstraint(const Vecd& a, const double& d)
     {
-        alglib::minlpaddlc2dense(state, toVec(a), d, INFINITY);
+        alglib::minlpaddlc2dense(state, toVec(-a), -d, INFINITY);
     }
 
     void write_to_file()
@@ -75,3 +80,4 @@ private:
         return r;
     }
 };
+}

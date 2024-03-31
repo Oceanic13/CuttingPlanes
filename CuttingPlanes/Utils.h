@@ -7,26 +7,31 @@
 #include <iterator>
 #include <algorithm>
 
-template<typename T>
-using VecT = Eigen::VectorX<T>;
-template<typename T>
-using MatT = Eigen::MatrixX<T>;
+namespace CP
+{
+    template<typename T>
+    using VecT = Eigen::VectorX<T>;
+    template<typename T>
+    using MatT = Eigen::MatrixX<T>;
 
-using Vecd = VecT<double>;
-using Matd = MatT<double>;
+    using Vecd = VecT<double>;
+    using Matd = MatT<double>;
 
-typedef nlohmann::json Json;
+    using MatBlockd = Eigen::Block<Matd>;
 
-inline constexpr bool isInt(const double& d) {return (d-trunc(d))<1e-9;}
+    typedef nlohmann::json Json;
 
-template <typename T>
-std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {
-    if (!v.empty()) {
-        out << '[';
-        std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-        out << "\b\b]";
-    } else {
-        out << "[]";
+    inline constexpr bool isInt(const double& d) {return (d-trunc(d))<1e-9;}
+
+    template <typename T>
+    std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {
+        if (!v.empty()) {
+            out << '[';
+            std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
+            out << "\b\b]";
+        } else {
+            out << "[]";
+        }
+        return out;
     }
-    return out;
 }

@@ -1,15 +1,21 @@
 #pragma once
 
+#include "LinearProgram.h"
 #include "Utils.h"
 #include "soplex.h"
 
+namespace CP
+{
 class SoPlexSolver
 {
 public:
-    explicit SoPlexSolver() {}
-    
-    void init(const Vecd& c, const Matd& A, const Vecd& b)
+    explicit SoPlexSolver(LinearProgram& problem)
     {
+
+        Vecd c = problem.costCoefficients();
+        Matd A = problem.constraintMatrix();
+        Vecd b = problem.constraintVector();
+
         n = c.size(); // dimensionality
         uint m = b.size(); // number of inequalities
         soplex = soplex::SoPlex();
@@ -27,9 +33,9 @@ public:
         for (uint i = 0; i < m; ++i) {
             soplex::DSVector row(n);
             for (uint j = 0; j < n; ++j) {
-                row.add(j, A(i,j));
+                row.add(j, -A(i,j));
             }
-            soplex.addRowReal( soplex::LPRow(b[i], row,  soplex::infinity));
+            soplex.addRowReal( soplex::LPRow(-b[i], row,  soplex::infinity));
         }
     }
     
@@ -96,13 +102,13 @@ public:
         }
     }
     
-    void add_constraint(const Vecd& a, const double& d)
+    void addConstraint(const Vecd& a, const double& d)
     {
         soplex::DSVector row(n);
         for (uint j = 0; j < n; ++j) {
-            row.add(j, a[j]);
+            row.add(j, -a[j]);
         }
-        soplex.addRowReal(soplex::LPRow(d, row,  soplex::infinity));
+        soplex.addRowReal(soplex::LPRow(-d, row,  soplex::infinity));
     }
 
     void write_to_file()
@@ -116,3 +122,4 @@ private:
     uint n;
 
 };
+}
