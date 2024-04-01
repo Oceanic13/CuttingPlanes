@@ -12,7 +12,7 @@ include_directories("libs/")
 file(GLOB_RECURSE LIBS_CPP "${LIBS_DIR}/*.cpp")
 file(GLOB_RECURSE LIBS_H "${LIBS_DIR}/*.h")
 
-add_executable(CuttingPlanes
+add_executable(${PROJECT_NAME}
     main.cpp
 
     Utils.h
@@ -21,9 +21,6 @@ add_executable(CuttingPlanes
     AlgLibSimplexSolver.h
     ToblexSolver.h
     LinearProgram.h
-
-
-
 
     #${LIBS_CPP}
     #${LIBS_H}
@@ -65,8 +62,44 @@ if (NOT TARGET nlohmann::json)
 endif()
 
 find_package(Boost REQUIRED COMPONENTS system filesystem)
-#include_directories(${Boost_INCLUDE_DIRS})
 
-target_link_libraries (CuttingPlanes PUBLIC Boost::boost libsoplex nlohmann_json::nlohmann_json Eigen3::Eigen)
+target_link_libraries (${PROJECT_NAME} PUBLIC
+    Boost::boost
+    libsoplex
+    nlohmann_json::nlohmann_json
+    Eigen3::Eigen
+)
 
+###########
+# testing #
+###########
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
+)
 
+FetchContent_GetProperties(googletest)
+if(NOT googletest_POPULATED)
+  FetchContent_Populate(googletest)
+  add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
+endif()
+enable_testing()
+include(GoogleTest)
+find_package(Boost REQUIRED COMPONENTS system filesystem)
+add_executable(${PROJECT_NAME}-test
+    tests.cpp
+)
+target_link_libraries(${PROJECT_NAME}-test
+    gtest gtest_main
+    Boost::boost
+    libsoplex
+    nlohmann_json::nlohmann_json
+    Eigen3::Eigen
+)
+gtest_add_tests(TARGET ${PROJECT_NAME}-test
+    EXTRA_ARGS "--gtest_color=yes"
+)
+set_target_properties(${PROJECT_NAME}-test PROPERTIES
+    CXX_STANDARD 14
+    CXX_STANDARD_REQUIRED YES
+)

@@ -13,7 +13,7 @@ public:
     {
     }
 
-    bool solve(Vecd& primal, Vecd& dual)
+    bool solve(Vecd& primal)
     {
         solStat = NONOPTIMAL;
         // TODO: Check when solution is infeasible (ie Feasible set is empty)
@@ -103,6 +103,10 @@ public:
         out << "=================================================================================================" << std::endl;
         return out;
     }
+
+    bool isUnbounded() {return solStat==UNBOUNDED;}
+    bool isOptimal() {return solStat==OPTIMAL;}
+    bool isInfeasible() {return solStat==INFEASIBLE;}
 
 private:
     enum SolStatus {NONOPTIMAL=0, OPTIMAL=1, UNBOUNDED=2, INFEASIBLE=3};

@@ -32,13 +32,12 @@ public:
         
         Vecd a(n);
         Vecd primal(n);
-        Vecd dual(1);
 
         for (uint iter = 0; iter < 3; ++iter) {
             
             std::cout << "CUTTING PLANES ITERATION " << iter << std::endl;
 
-            bool success = solver.solve(primal, dual);
+            bool success = solver.solve(primal);
             simplex_solutions.push_back(primal);
 
 

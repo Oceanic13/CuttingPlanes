@@ -46,7 +46,7 @@ public:
         alglib::minlpsetlc(state, a, ct);
     }
 
-    bool solve(Vecd& primal, Vecd& dual)
+    bool solve(Vecd& primal)
     {
         alglib::minlpoptimize(state);
         alglib::real_1d_array x;

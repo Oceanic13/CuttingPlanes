@@ -35,3 +35,12 @@ namespace CP
         return out;
     }
 }
+
+/*
+# enable_testing()
+# include(GoogleTest)
+# find_package(Boost REQUIRED COMPONENTS system filesystem)
+# add_executable(${PROJECT_NAME}-test
+#         tests.cpp
+#         )
+*/

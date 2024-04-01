@@ -39,7 +39,7 @@ public:
         }
     }
     
-    bool solve(Vecd& primal, Vecd& dual)
+    bool solve(Vecd& primal)
     {
         // solve LP
         soplex::SPxSolver::Status stat;
@@ -52,7 +52,6 @@ public:
             soplex.getPrimal(p);
             soplex.getDual(d);
             for (uint i = 0; i < n; ++i) {primal[i] = p[i];}
-            for (uint i = 0; i < 1; ++i) {dual[i] = d[i];}
 
             std::cout << "================================================================" << std::endl;
             uint m = soplex.numRows();
@@ -92,7 +91,6 @@ public:
             std::cout << "Basis Indices: " << b.transpose() << std::endl;
 
             std::cout << "Primal = " << primal.transpose() << std::endl;
-            std::cout << "Dual = " << dual.transpose() << std::endl;
             std::cout << "================================================================" << std::endl;
 
             return true;
