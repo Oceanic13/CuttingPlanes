@@ -8,6 +8,8 @@ namespace CP
 using MILP = MixedIntegerLinearProgram;
 
 // TODO: Much better to have a sparse Matrix for the Tableau...
+// TODO: We probably do not need to reset the entire tableau everytime
+// Set the Tableau to the initial tableau if it exists and then manually add the new inequality to it
 
 /**
  * My own Simplex Solver to have something that works and that I understand!
@@ -24,7 +26,7 @@ public:
     bool solve(Vecd& primal)
     {
         solStat = NONOPTIMAL;
-        initTableau(); // TODO: We probably do not need to reset the entire tableau everytime
+        initTableau();
 
         //std::cout << "Initial:\n" << *this << std::endl;
 
@@ -91,7 +93,7 @@ public:
         }
         if (col == -1) {return false;}
 
-        std::cout << "Variable " << col << " violates Integer Constraint!" << std::endl;
+        //std::cout << "Variable " << col << " violates Integer Constraint!" << std::endl;
 
         // Find corresponding Basis row
         int row = -1;
@@ -103,7 +105,7 @@ public:
         }
         assert(row != -1);
         assert(T(row,col)==1);
-        std::cout << "In row " << row << std::endl;
+        //std::cout << "In row " << row << std::endl;
 
         // Get row and rhs
         bi = br(row);
@@ -124,21 +126,20 @@ public:
         }
         for (uint j = n1; j < n1+n2+nSlacks; ++j) {
             double aij = T(row,j);
-            if (aij <= 0) {continue;}
+            if (aij >= 0) {continue;}
 
             double coeff = aij / (1. - fi);
 
-            if (j < n) {
+            if (j < n) { // N2- problem var
                 Ai[j] = coeff;
-            } else {
+            } else { // N2- slack var
                 Vecd varCoeffs(n); double constTerm;
                 getSlackVarCoeffs(j, varCoeffs, constTerm);
+                //std::cout << "VarCoeffs for slack " << j << " are " << varCoeffs.transpose() << " + " << constTerm << std::endl;
                 Ai += coeff * varCoeffs;
+                bi -= coeff * constTerm;
             }
         }
-
-        std::cout << Ai.transpose() << " <= " << bi << std::endl;
-
 
         return true;
     }
@@ -408,7 +409,7 @@ private:
         uint n = problem.dimension();
         assert(j >= n && j < n+nSlacks);
         for (uint r = 1; r <= initialBasis.size(); ++r) {
-            if (initialBasis[r] == j) {
+            if (initialBasis[r-1] == j) {
                 varCoeffs = - initialT.row(r).segment(0, n);
                 constTerm = initialT(r, initialT.cols()-1);
                 return;
@@ -427,6 +428,8 @@ private:
         Vecd p = Vecd(s.problem.dimension());
         s.getPrimalSolution(p);
         out << "=================================================================================================" << std::endl;
+        out << "Initial Tableau:\n" << s.initialT << std::endl;
+        out << "Initial Basis: " << s.initialBasis << std::endl;
         out << "Tableau:\n" << s.T << std::endl;
         out << "nVars, nSlack, nArtificial: " << s.problem.dimension() << ", " << s.nSlacks << ", " << s.nArts << std::endl;
         out << "Basis: " << s.basis << std::endl;
@@ -445,312 +448,4 @@ private:
         return out;
     }
 };
-
-
-// class ToblexSolver
-// {
-// public:
-//     explicit ToblexSolver(MixedIntegerLinearProgram& problem)
-//         : problem(problem)
-//     {
-//     }
-
-//     bool solve(Vecd& primal)
-//     {
-//         solStat = NONOPTIMAL;
-//         // TODO: Check when solution is infeasible (ie Feasible set is empty)
-
-//         initTableau();
-
-//         // Solve Simplex
-//         solveSimplex();
-
-//         std::cout << *this << std::endl;
-
-//         getPrimalSolution(primal);
-//         return false;
-//     }
-
-//     void addConstraint(const Vecd& a, const double& d)
-//     {
-//         // TODO: When just adding a new constraint, we should probably not reset the whole tableau
-//         // Make this smarter, ie as few changes as possible to the tableau to solve subsequent iterations of CP faster (hopefully)!
-
-//         return; // already handled since this solver refers to the LinearProgram problem.
-//         /*
-//         uint n = problem.dimension();
-//         assert(a.size() == n);
-
-//         // Add new row to tableau for ineq. and col for slack var
-//         uint nr = tableau.rows()+1;
-//         uint nc = tableau.cols()+1;
-//         tableau.conservativeResize(nr,nc);
-
-//         // move rhs col to the new last col and add rhs value to last entry
-//         tableau.block(0,nc-1,nr,1) = tableau.block(0,nc-2,nr,1);
-//         tableau(nr-1,nc-1) = d;
-
-//         // set column of new var to unit vector
-//         tableau.block(0,nc-2,nr,1).fill(0);
-//         tableau(nr-1,nc-2) = 1;
-
-//         // Set last row to new constraint
-//         tableau(nr-1,0) = 0;
-//         tableau.block(nr-1,1,1,n) = a.transpose();
-
-//         // add new slack var to basis
-//         B.push_back(n+(nr-1));
-
-//         solStat = NONOPTIMAL;
-//         */
-//     }
-
-//     void write_to_file()
-//     {
-//     }
-
-//     friend std::ostream& operator<< (std::ostream& out, const ToblexSolver& solver) {
-//         Vecd p = Vecd(solver.problem.dimension());
-//         solver.getPrimalSolution(p);
-//         out << "=================================================================================================" << std::endl;
-//         out << "Initial Tableau:\n" << solver.initialTableau << std::endl;
-//         out << "Tableau:\n" << solver.tableau << std::endl;
-//         out << "Basis: " << solver.B << std::endl;
-//         out << "Status: " << solver.solStat << std::endl;
-//         out << "Primal Solution: " << p.transpose() << std::endl;
-//         out << "Optimal Value: " << solver.getOptimalValue() << std::endl;
-//         out << "=================================================================================================" << std::endl;
-//         return out;
-//     }
-
-//     bool generateCuttingPlane(Vecd& a, double& d)
-//     {
-//         uint n = problem.dimension();
-
-//         // TODO: Fisr, get coeffcients of original variables and only then compute fractional part
-
-//         int col = -1;
-//         Vecd x(n);
-//         getPrimalSolution(x);
-
-//         // Get first coordinate index that should be integer but isn't
-//         for (uint i = 0; i < x.size(); ++i) {
-//             if (problem.isIntegerConstrained(i) && !isInt(x[i])) {
-//                 col = i+1;
-//                 break;
-//             }
-//         }
-//         if (col == -1) {return false;} // solution is integer
-
-//         // Find row of the violating basis variable
-//         int row = -1; for (auto r = 0u; r < tableau.rows(); ++r) {if (B[r]==col) {row=r; break;}} // TODO: Make this more efficient, amybe per var, store its basis row (or -1)
-//         assert(row >= 1);
-//         assert(tableau(row, col) == 1);
-
-//         // Represent the violating basis variable with the other variables and generate gomry cut
-//         a.fill(0);
-//         Vecd frac_a(nSlacks()); // fractional parts of coefficients
-//         double frac_d = getFrac(tableau(row, tableau.cols()-1)); // fractional part of rhs
-//         d = -frac_d;
-
-//         // In the basis row, we have x_i + sum e_j x_j = rhs
-//         // Create the inequality: sum frac(e_j) x_j >= frac(rhs) but with x_j being original vars
-//         for (uint c = 1; c < tableau.cols()-1; ++c) {
-//             double e = tableau(row, c);
-//             if (c == col) {assert(isInt(e)); continue;}
-//             if (isInt(e)) {continue;};
-//             double f = getFrac(e);
-
-//             if (c <= n) {
-//                 a[c-1] += f;
-//             } else {
-//                 frac_a[c-n-1] = f;
-//             }
-//         }
-
-//         // Loop up the slack variables in original tableau (how to write them in terms of problem vars)
-//         // we have slack + sum coeff_j x_j = rhs, so slack = rhs - sum_coeff
-//         for (row = 1; row < initialTableau.rows(); ++row) {
-//             double f = frac_a[row-1];
-
-//             for (col = 1; col <= n; ++col) {
-//                 a[col-1] += f * initialTableau(row, col);
-//             }
-//             d += f * initialTableau(row, initialTableau.cols()-1);
-//         }
-
-//         return true;
-//     }
-
-//     double getOptimalValue() const {return -tableau(0, tableau.cols()-1);}
-
-//     bool isUnbounded() {return solStat==UNBOUNDED;}
-//     bool isOptimal() {return solStat==OPTIMAL;}
-//     bool isInfeasible() {return solStat==INFEASIBLE;}
-
-// private:
-//     enum SolStatus {NONOPTIMAL=0, OPTIMAL=1, UNBOUNDED=2, INFEASIBLE=3};
-
-//     MixedIntegerLinearProgram& problem;
-//     Matd initialTableau; // Keep a copy of the initial tableau
-//     Matd tableau; // Simplex Tableau of size (nIneq+1) x (1+nVars+1)
-//     std::vector<int> B; // Basis Variables (1st entry will always be 0 for the cost variable z)
-//     SolStatus solStat;
-
-//     void initTableau()
-//     {
-//         // Setup Phase 2 Tableau
-//         uint m = problem.nInequalities();
-//         uint n = problem.dimension();
-//         tableau = Matd(m+1, 1+n+m+1);
-//         tableau(0,0) = 1; // 1
-//         tableau.block(1,0,m,1).fill(0); // 0
-//         tableau.block(0,1,1,n) = problem.costCoefficients().transpose(); // c_x
-//         tableau.block(0,n+1,1,m+1).fill(0); // c_slack
-//         tableau.block(1,1,m,n) = problem.inequaltyMatrix(); // A
-//         tableau.block(1,n+1,m,m) = Matd::Identity(m,m); // Id
-//         tableau.block(1,n+m+1,m,1) = problem.inequalityVector(); // rhs b
-
-//         // Initial Basis is slack variables
-//         B.resize(m+1);
-//         B[0] = 0;
-//         for (uint i = 1; i < m+1; ++i) {B[i] = n+i;}
-
-//         initialTableau = tableau;
-//     }
-
-//     std::pair<int,int> pickPivot()
-//     {
-//         // Pick Pivot Column
-//         // If all coeffs in obj. are nonneg, sol is optimal, return
-//         int col = -1;
-//         double min = INFINITY;
-//         for (uint i = 1; i < tableau.cols()-1; ++i) {
-//             double t = tableau(0,i);
-//             if (t < 0 && t < min) {
-//                 min = t;
-//                 col = i;
-//             }
-//         }
-//         if (col == -1) {
-//             std::cout << "SOLUTION IS OPTIMAL" << std::endl;
-//             solStat = OPTIMAL;
-//             return std::make_pair(-1,-1);
-//         }
-
-//         // Pick Pivot Row
-//         // If all entries in col are nonpos, sol is unbounded, return
-//         int row = -1;
-//         min = INFINITY;
-//         for (uint i = 1; i < tableau.rows(); ++i) {
-//             double t = tableau(i,col);
-//             if (t > 0) {
-//                 double b = tableau(i,tableau.cols()-1);
-//                 t = b / t;
-//                 if (t < min) {
-//                     min = t;
-//                     row = i;
-//                 }
-//             }
-//         }
-//         if (row == -1) {
-//             std::cout << "SOLUTION IS UNBOUNDED" << std::endl;
-//             solStat = UNBOUNDED;
-//             return std::make_pair(col,-1);
-//         }
-
-//         solStat = NONOPTIMAL;
-//         return std::make_pair(col,row);
-//     }
-
-//     void doPivot(const int& col, const int& row)
-//     {
-//         double p = tableau(row, col);
-//         assert(p > 0);
-
-//         // Divide row by p to make pivot 1
-//         tableau.row(row) /= p;
-//         assert(std::abs(tableau(row,col)-1.) < 1e-9);
-//         tableau(row, col) = 1;
-
-//         // Make all other entries in column 0 by using elementary row operations
-//         for (uint i = 0; i < tableau.rows(); ++i) {
-//             if (i == row) {continue;}
-//             tableau.row(i) -= tableau(i,col) * tableau.row(row);
-//             assert(std::abs(tableau(i,col)) < 1e-9);
-//             tableau(i,col) = 0;
-//         }
-
-//         // Change Basis
-//         B[row] = col;
-//     }
-
-//     void solveSimplex()
-//     {
-//         // Assert rhs >= 0
-//         for (auto i = 1; i < tableau.rows(); ++i) {assert(tableau(i,tableau.cols()-1) >= 0);}
-
-//         while (solStat != OPTIMAL) {
-
-//             auto cr = pickPivot();
-//             //std::cout << tableau << std::endl;
-//             //std::cout << "Pivot " << cr.first << ", " << cr.second << std::endl;
-
-//             if (solStat != NONOPTIMAL) {
-//                 return;
-//             }
-
-//             doPivot(cr.first, cr.second);
-//         }
-//     }
-
-//     void getPrimalSolution(Vecd& p) const {
-//         // TODO: Is it correct that if a variable is not basic (because n > m), it is 0?
-
-//         p.fill(0);
-//         for (auto row = 1u; row < tableau.rows(); ++row) {
-//             const auto& i = B[row];
-//             if (i >= 1 && i <= problem.dimension()) {
-//                 p[i-1] = tableau(row, tableau.cols()-1);
-//             }
-//         }
-//     }
-
-//     void removeBasicsInObjective()
-//     {
-//         // If a basis var appears in the obj. function, remove it using row op.
-//         for (auto row = 1u; row < tableau.rows(); ++row) {
-//             auto col = B[row];
-//             double c = tableau(0,col);
-//             if (c != 0) {
-//                 assert(std::abs(tableau(row,col)-1) < 1e-9);
-//                 tableau.row(0) -= c * tableau.row(row);
-//                 assert(tableau(0,col) < 1e-9);
-//             }
-//         }
-//     }
-
-//     void resetObjectiveRow()
-//     {
-//         // Set the objective row to the original objective function (based on original vars with rhs=0)
-//         uint n = problem.dimension();
-//         tableau.block(0,1,1,n) = problem.costCoefficients().transpose(); // c_x
-//         tableau.block(0,n+1,1,tableau.cols()-n-1).fill(0); // c_slack
-
-//         std::cout << "Objective Row: " << tableau.row(0) << std::endl;
-//     }
-
-//     uint nSlacks() {
-//         return tableau.cols() - problem.dimension() - 2;
-//     }
-
-//     friend std::ostream& operator<< (std::ostream& out, const SolStatus& s) {
-//         if (s == NONOPTIMAL) return out << "Nonoptimal";
-//         if (s == OPTIMAL) return out << "Optimal";
-//         if (s == UNBOUNDED) return out << "Unbounded";
-//         if (s == INFEASIBLE) return out << "Infeasible";
-//         return out;
-//     }
-// };
-
 }

@@ -32,18 +32,23 @@ public:
         double bi;
         Vecd x(n);
 
-        for (uint iter = 0; iter < 2; ++iter) {
-            
-            std::cout << "CUTTING PLANES ITERATION " << iter << std::endl;
+        for (uint iter = 0; iter < 100; ++iter) {
 
             bool success = solver.solve(x);
-            simplex_solutions.push_back(x);
+            double v = solver.getOptimalValue();
 
-            std::cout << solver << std::endl;
+            simplex_solutions.push_back(x);
+            simplex_values.push_back(v);
+
+            //std::cout << solver << std::endl;
 
             if (solver.generateGomoryMixedIntegerCut(x, Ai, bi)) {
+                //std::cout << "Cutting Plane: " << Ai.transpose() << " <= " << bi << std::endl;
+                n_cuts++;
                 addInequalityConstraint(Ai, bi);
             } else {
+                optimal_solution = x;
+                optimal_value = v;
                 break;
             }
             continue;
@@ -71,7 +76,7 @@ public:
             {"B", problem.equaltyMatrix().rowwise()},
             {"d", problem.equalityVector()},
             {"c", problem.costCoefficients()},
-            {"nCuts", problem.dimension()},
+            {"nCuts", n_cuts},
             {"n1", problem.nIntegerConstraints()},
             {"sols", simplex_solutions}
         };
@@ -83,13 +88,23 @@ public:
         o.close();
     }
 
+    inline const uint numberOfCuts() {return n_cuts;}
+
+    inline const Vecd& optimalSolution() {return optimal_solution;}
+
+    inline const double optimalValue() {return optimal_value;}
+
 private:
     ToblexSolver solver;
     
     MixedIntegerLinearProgram& problem;
     uint n_cuts;
+
+    Vecd optimal_solution;
+    double optimal_value;
     
     std::vector<Vecd> simplex_solutions;
+    std::vector<double> simplex_values;
 
     /**
      * Adds the linear constraint ax >= d to the system

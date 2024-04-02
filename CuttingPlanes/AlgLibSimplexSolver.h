@@ -7,6 +7,9 @@
 
 namespace CP
 {
+/**
+ * This Guy is not at all precise, WTF!
+ */
 class AlgLibSimplexSolver
 {
 public:

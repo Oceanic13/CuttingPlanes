@@ -6,6 +6,9 @@
 
 namespace CP
 {
+/**
+ * This Guy is nice but WHERE IS THE TABLEAU???
+ */
 class SoPlexSolver
 {
 public:

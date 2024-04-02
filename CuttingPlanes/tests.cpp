@@ -1,4 +1,5 @@
 
+#include "CuttingPlanes.h"
 #include "MixedIntegerLinearProgram.h"
 #include "ToblexSolver.h"
 #include "Utils.h"
@@ -210,11 +211,28 @@ TEST(ToblexTest, SomeRandomProblemTest)
     auto s = ToblexSolver(milp);
     s.solve(x);
 
-    std::cout << s << std::endl;
+    //std::cout << s << std::endl;
 
     ASSERT_TRUE(s.isOptimal());
     ASSERT_TRUE((expected - x).squaredNorm() < 1e-9);
     ASSERT_DOUBLE_EQ(7.0, s.getOptimalValue());
+}
+
+TEST(CuttingPlaneTest, OptBookP331Test)
+{
+    Matd A(2,2); A << 3, 2, -3, 2;
+    Vecd b(2); b << 6, 0;
+    Vecd c(2); c << 0, -1;
+
+    auto milp = MILP::inequalityILP(c, A, b);
+    auto solver = CuttingPlanes(milp);
+    solver.solve();
+
+    Vecd expected(2); expected << 1, 1;
+
+    ASSERT_EQ(2, solver.numberOfCuts());
+    ASSERT_EQ(expected, solver.optimalSolution());
+    ASSERT_DOUBLE_EQ(-1, solver.optimalValue());
 }
 
 int main(int argc, char** argv)
