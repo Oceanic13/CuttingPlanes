@@ -2,6 +2,7 @@
 
 #include <nlohmann/json.hpp>
 #include <Eigen/Dense>
+#include <Eigen/Sparse>
 #include <iostream>
 #include <vector>
 #include <iterator>
@@ -9,19 +10,39 @@
 
 namespace CP
 {
-    template<typename T>
-    using VecT = Eigen::VectorX<T>;
-    template<typename T>
-    using MatT = Eigen::MatrixX<T>;
+    using Vecd = Eigen::VectorXd;
+    using Matd = Eigen::MatrixXd;
+    using SVecd = Eigen::SparseVector<double>;
+    using SMatd = Eigen::SparseMatrix<double>;
+    using Triplet = Eigen::Triplet<double>;
+    using MatdBlock = Eigen::Block<double>;
 
-    using Vecd = VecT<double>;
-    using Matd = MatT<double>;
+    void removeRow(Eigen::MatrixXd& matrix, unsigned int rowToRemove)
+    {
+        unsigned int numRows = matrix.rows()-1;
+        unsigned int numCols = matrix.cols();
 
-    using MatBlockd = Eigen::Block<Matd>;
+        if( rowToRemove < numRows )
+            matrix.block(rowToRemove,0,numRows-rowToRemove,numCols) = matrix.block(rowToRemove+1,0,numRows-rowToRemove,numCols);
+
+        matrix.conservativeResize(numRows, Eigen::NoChange);
+    }
+
+    void removeCols(Eigen::MatrixXd& A, uint col, uint nColsToRemove)
+    {
+        uint nCols = A.cols();
+        Eigen::MatrixXd B(A.rows(), nCols - nColsToRemove);
+        B << A.leftCols(col), A.rightCols(nCols - (col + nColsToRemove));
+        A = B;
+    }
 
     typedef nlohmann::json Json;
 
-    inline constexpr bool isInt(const double& d) {return (d-trunc(d))<1e-9;}
+    inline constexpr int getInt(const double& d) {return std::floor(d);}
+
+    inline constexpr double getFrac(const double& d) {return d - getInt(d);}
+
+    inline constexpr bool isInt(const double& d) {return getFrac(d) < 1e-9;}
 
     template <typename T>
     std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "LinearProgram.h"
+#include "MixedIntegerLinearProgram.h"
 #include "Utils.h"
 #include "alglib/stdafx.h"
 #include "alglib/optimization.h"
@@ -10,12 +10,12 @@ namespace CP
 class AlgLibSimplexSolver
 {
 public:
-    explicit AlgLibSimplexSolver(LinearProgram& problem)
+    explicit AlgLibSimplexSolver(MixedIntegerLinearProgram& problem)
     {
 
         Vecd c = problem.costCoefficients();
-        Matd A = -problem.constraintMatrix();
-        Vecd b = -problem.constraintVector();
+        Matd A = -problem.inequaltyMatrix();
+        Vecd b = -problem.inequalityVector();
         n = c.size();
         uint m = b.size();
 

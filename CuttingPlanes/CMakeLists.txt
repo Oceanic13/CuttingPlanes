@@ -20,7 +20,7 @@ add_executable(${PROJECT_NAME}
     CuttingPlanes.h
     AlgLibSimplexSolver.h
     ToblexSolver.h
-    LinearProgram.h
+    MixedIntegerLinearProgram.h
 
     #${LIBS_CPP}
     #${LIBS_H}

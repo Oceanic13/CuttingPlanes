@@ -1,6 +1,6 @@
 #pragma once
 
-#include "LinearProgram.h"
+#include "MixedIntegerLinearProgram.h"
 #include "Utils.h"
 #include "soplex.h"
 
@@ -9,12 +9,12 @@ namespace CP
 class SoPlexSolver
 {
 public:
-    explicit SoPlexSolver(LinearProgram& problem)
+    explicit SoPlexSolver(MixedIntegerLinearProgram& problem)
     {
 
         Vecd c = problem.costCoefficients();
-        Matd A = problem.constraintMatrix();
-        Vecd b = problem.constraintVector();
+        Matd A = problem.inequaltyMatrix();
+        Vecd b = problem.inequalityVector();
 
         n = c.size(); // dimensionality
         uint m = b.size(); // number of inequalities
@@ -86,7 +86,7 @@ public:
             std::cout << "Coeff:\n" << C << std::endl;
 
 
-            VecT<int> b(m);
+            Eigen::VectorXi b(m);
             soplex.getBasisInd(b.data());
             std::cout << "Basis Indices: " << b.transpose() << std::endl;
 
