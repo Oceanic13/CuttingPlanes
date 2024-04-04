@@ -72,6 +72,10 @@ public:
 
     inline const bool isIntegerConstrained(const uint& i) {assert(i>=0&&i<dim); return i < n1;}
 
+    inline const bool isLP() {return n1==0;}
+
+    inline const bool isILP() {return n1==dim;}
+
     inline const Vecd& costCoefficients() {return c;}
 
     inline const Matd& inequaltyMatrix() {return A;}

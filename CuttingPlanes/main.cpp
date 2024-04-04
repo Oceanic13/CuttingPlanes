@@ -9,6 +9,7 @@ using MILP = MixedIntegerLinearProgram;
 
 int main()
 {
+
     // Example from Book
     Matd A(2,2); A << 3, 2, -3, 2;
     Vecd b(2); b << 6, 0;
