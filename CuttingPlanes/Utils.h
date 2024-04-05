@@ -20,7 +20,33 @@ namespace CP
     using Triplet = Eigen::Triplet<double>;
     using MatdBlock = Eigen::Block<double>;
 
-    void removeCols(Eigen::MatrixXd& A, uint col, uint nColsToRemove)
+    Vecd toVecd(const std::vector<double> v) {
+        Vecd r(v.size());
+        for (auto i = 0; i < v.size(); ++i) r[i] = v[i];
+        return r;
+    }
+
+    Matd toMatd(const std::vector<std::vector<double>> v) {
+        if (v.size() == 0) return Matd(0,0);
+        auto nRows = v.size();
+        auto nCols = v[0].size();
+        Matd r(nRows, nCols);
+        for (auto i = 0; i < nRows; ++i)
+            for (auto j = 0; j < nCols; ++j)
+                r(i,j) = v[i][j];
+        return r;
+    }
+
+    void insertEmptyCol(Matd& A, const uint& c)
+    {
+        assert(c >= 0 && c < A.cols());
+        Eigen::MatrixXd B(A.rows(), A.cols() + 1);
+        B.block(0, 0, A.rows(), c) = A.leftCols(c);
+        B.block(0, c + 1, A.rows(), A.cols() - c) = A.rightCols(A.cols() - c);
+        A = std::move(B);
+    }
+
+    void removeCols(Matd& A, uint col, uint nColsToRemove)
     {
         uint nCols = A.cols();
         Eigen::MatrixXd B(A.rows(), nCols - nColsToRemove);
@@ -28,39 +54,28 @@ namespace CP
         A = B;
     }
 
-    void getNonZeroRows(const SMatd& A, const uint& col, std::vector<int>& nonZeroRows)
-    {
-        nonZeroRows.clear();
-        for (int k = A.outerIndexPtr()[col]; k < A.outerIndexPtr()[col + 1]; ++k) {
-            nonZeroRows.push_back(A.innerIndexPtr()[k]);
-        }
-    }
-
-    void getNonZeroCols(const SMatd& A, const uint& row, std::vector<int>& nonZeroCols)
-    {
-        nonZeroCols.clear();
-        for (SMatd::InnerIterator it(A,0); it; ++it) {
-            nonZeroCols.push_back(it.col());
-        }
-    }
-
-    void setRow(SMatd& A, const uint& row, const Vecd& v)
-    {
-        uint n = v.size();
-        assert(A.cols() == n);
-        for (auto j = 0u; j < n; ++j) {
-            double a = v[j];
-            if (a != 0.0) {
-                A.insert(row, j) = a;
-            }
-        }
-    }
-
     // R1 := R1 + c*R2
-    void addRowToRow(SMatd& A, const uint& r1, const double& c, const uint& r2)
+    void addRowToRow(Matd& A, const uint& r1, const double& c, const uint& r2)
     {
-        for (SMatd::InnerIterator it(A, r2); it; ++it) {
-            A.coeffRef(r1, it.col()) += c * it.value();
+        A.row(r1) += c * A.row(r2);
+    }
+
+    // Make A[r, c] = 1 (should not be 0) and A[i, c] = 0 by row ops
+    // s.t. the c-th column of A will be the r-th unit vector
+    void gaussianPivot(Matd& A, const uint& r, const uint& c)
+    {
+        const double p = A(r, c);
+        assert(A(r,c) != 0);
+
+        // Divide row by p to make pivot 1
+        A.row(r) /= p;
+        A(r, c) = 1;
+
+        // Make all other entries in column 0 by using elementary row operations
+        for (uint i = 0; i < A.rows(); ++i) {
+            if (i == r) {continue;}
+            addRowToRow(A, i, -A(i,c), r);
+            A(i,c) = 0;
         }
     }
 
@@ -70,7 +85,7 @@ namespace CP
 
     inline constexpr double getFrac(const double& d) {return d - getInt(d);}
 
-    inline constexpr bool isInt(const double& d) {return getFrac(d) < EPSILON;}
+    inline constexpr bool isInt(const double& d) {double f = getFrac(d); return f<EPSILON || f>1-EPSILON;}
 
     template <typename T>
     std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {

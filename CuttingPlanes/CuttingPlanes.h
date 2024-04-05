@@ -11,6 +11,7 @@ namespace CP
 {
 class CuttingPlanes
 {
+    using MILP = MixedIntegerLinearProgram;
 public:
     explicit CuttingPlanes(MixedIntegerLinearProgram& problem) : problem(problem), solver(ToblexSolver(problem)) {
 
@@ -25,8 +26,10 @@ public:
      */
     void solve()
     {
+        solStat = ToblexSolver::NONOPTIMAL;
+        cuts_coeffs.clear();
+        cuts_rhs.clear();
         uint n = problem.dimension();
-        n_cuts = 0;
         
         Vecd Ai(n);
         double bi;
@@ -34,8 +37,15 @@ public:
 
         for (uint iter = 0; iter < 100; ++iter) {
 
-            bool success = solver.solve(x);
+            solver.solve();
+
+            if (solver.isInfeasible()) {
+                solStat = ToblexSolver::INFEASIBLE;
+                break;
+            }
+
             double v = solver.getOptimalValue();
+            x = solver.getOptimalSolution();
 
             simplex_solutions.push_back(x);
             simplex_values.push_back(v);
@@ -43,76 +53,59 @@ public:
             //std::cout << solver << std::endl;
 
             if (solver.generateGomoryMixedIntegerCut(x, Ai, bi)) {
-                //std::cout << "Cutting Plane: " << Ai.transpose() << " <= " << bi << std::endl;
-                n_cuts++;
+                cuts_coeffs.push_back(Ai);
+                cuts_rhs.push_back(bi);
                 addInequalityConstraint(Ai, bi);
             } else {
+                solStat = ToblexSolver::OPTIMAL;
                 optimal_solution = x;
                 optimal_value = v;
                 break;
             }
-            continue;
-
-
-            // TODO: Generate Gomory Cut
-        /*
-            if (iter == 0) {
-                a << 0, 1;
-                addInequalityConstraint(a, 1);
-            } else if (iter == 1) {
-                a << -1, 1;
-                addInequalityConstraint(a, 0);
-            }*/
         }
-
-        //solver.write_to_file();
     }
 
-    void export_json(const std::string& filename)
+    void exportJson(const std::string& filename)
     {
-        Json j = {
-            {"A", problem.inequaltyMatrix().rowwise()},
-            {"b", problem.inequalityVector()},
-            {"B", problem.equaltyMatrix().rowwise()},
-            {"d", problem.equalityVector()},
-            {"c", problem.costCoefficients()},
-            {"nCuts", n_cuts},
-            {"n1", problem.nIntegerConstraints()},
-            {"sols", simplex_solutions}
-        };
-
-        //std::cout << std::setw(4) << j << std::endl;
+        Json j;
+        j["sols"] = simplex_solutions;
+        j["cuts_coeffs"] = cuts_coeffs;
+        j["cuts_rhs"] = cuts_rhs;
 
         std::ofstream o(filename);
         o << std::setw(4) << j << std::endl;
         o.close();
     }
 
-    inline const uint numberOfCuts() {return n_cuts;}
+    inline const uint numberOfCuts() {return cuts_rhs.size();}
 
     inline const Vecd& optimalSolution() {return optimal_solution;}
 
     inline const double optimalValue() {return optimal_value;}
 
+    inline bool isInfeasible() {return solStat == ToblexSolver::INFEASIBLE;}
+
 private:
     ToblexSolver solver;
+    ToblexSolver::SolStatus solStat;
     
     MixedIntegerLinearProgram& problem;
-    uint n_cuts;
 
     Vecd optimal_solution;
     double optimal_value;
     
     std::vector<Vecd> simplex_solutions;
     std::vector<double> simplex_values;
+    std::vector<Vecd> cuts_coeffs;
+    std::vector<double> cuts_rhs;
 
     /**
      * Adds the linear constraint ax >= d to the system
      */
     void addInequalityConstraint(const Vecd& Ai, const double& bi)
     {
-        problem.addInequalityConstraint(Ai, bi);
-        solver.addInequalityConstraint(Ai, bi);
+        problem.addConstraint(Ai, bi, MILP::LEQ);
+        solver.addConstraint(Ai, bi, MILP::LEQ);
     }
 };
 }

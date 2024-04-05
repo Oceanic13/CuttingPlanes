@@ -58,15 +58,15 @@ TEST(ToblexTest, OptBookP331Test)
     Matd A(2,2); A << 3, 2, -3, 2;
     Vecd b(2); b << 6, 0;
     Vecd c(2); c << 0, -1;
-    Vecd x(2);
+
     auto lp = MILP::inequalityILP(c, A, b);
     auto solver = ToblexSolver(lp);
-    solver.solve(x);
+    solver.solve();
 
     Vecd expected(2); expected << 1, 1.5;
 
     ASSERT_TRUE(solver.isOptimal());
-    ASSERT_EQ(expected, x);
+    ASSERT_EQ(expected, solver.getOptimalSolution());
     ASSERT_DOUBLE_EQ(-1.5, solver.getOptimalValue());
 }
 
@@ -75,10 +75,10 @@ TEST(ToblexTest, UnboundedTest)
     Matd A(1,2); A << 1, -1;
     Vecd b(1); b << 0;
     Vecd c(2); c << -1, -1;
-    Vecd x(2);
+
     auto lp = MILP::inequalityILP(c, A, b);
     auto solver = ToblexSolver(lp);
-    solver.solve(x);
+    solver.solve();
 
     ASSERT_TRUE(solver.isUnbounded());
 }
@@ -88,15 +88,15 @@ TEST(ToblexTest, SingletonTest)
     Matd A(1,2); A << 1, 1;
     Vecd b(1); b << 0;
     Vecd c(2);  c << 1, -2;
-    Vecd x(2);
+
     auto lp = MILP::inequalityILP(c, A, b);
     auto solver = ToblexSolver(lp);
-    solver.solve(x);
+    solver.solve();
 
     Vecd expected(2); expected << 0, 0;
 
     ASSERT_TRUE(solver.isOptimal());
-    ASSERT_EQ(expected, x);
+    ASSERT_EQ(expected, solver.getOptimalSolution());
     ASSERT_DOUBLE_EQ(0.0, solver.getOptimalValue());
 }
 
@@ -106,10 +106,8 @@ TEST(ToblexTest, UnconstrainedProblemUnboundedTest)
     Vecd c(5); c << 1, 3, -2, 0.5, -2.1; // vars 3, 5 to inf lead to arbitrarily small values
     milp.setObjective(c);
 
-    Vecd x(5);
-
     auto s = ToblexSolver(milp);
-    s.solve(x);
+    s.solve();
 
     ASSERT_TRUE(s.isUnbounded());
 }
@@ -120,14 +118,13 @@ TEST(ToblexTest, UnconstrainedProblemWithOptimalSolutionTest)
     Vecd c(5); c << 1, 3, 2, 0.5, 2.1; // since all cost coeffs are nonneg, the min. is eached by setting x=0
     milp.setObjective(c);
 
-    Vecd x(5);
     Vecd expected(5); expected << 0, 0, 0, 0, 0;
 
     auto s = ToblexSolver(milp);
-    s.solve(x);
+    s.solve();
 
     ASSERT_TRUE(s.isOptimal());
-    ASSERT_EQ(expected, x);
+    ASSERT_EQ(expected, s.getOptimalSolution());
     ASSERT_DOUBLE_EQ(0, s.getOptimalValue());
 }
 
@@ -140,15 +137,13 @@ TEST(ToblexTest, ConflictingEqualityConstraintsTest)
     Vecd Bi(2);
 
     Bi << 1, 0;
-    milp.addEqualityConstraint(Bi, 3); // x = 3
+    milp.addConstraint(Bi, 3, MILP::EQ); // x = 3
 
     Bi << 1, 0;
-    milp.addEqualityConstraint(Bi, 5); // x = 5
-
-    Vecd x(2);
+    milp.addConstraint(Bi, 5, MILP::EQ); // x = 5
 
     auto s = ToblexSolver(milp);
-    s.solve(x);
+    s.solve();
 
     ASSERT_TRUE(s.isInfeasible());
 }
@@ -160,16 +155,15 @@ TEST(ToblexTest, Phase1OptimalTest1)
     milp.setObjective(c);
 
     Vecd Ai(2); Ai << -1, -1;
-    milp.addInequalityConstraint(Ai, -3);
+    milp.addConstraint(Ai, -3, MILP::LEQ);
 
-    Vecd x(2);
     Vecd expected(2); expected << 0, 3;
 
     auto s = ToblexSolver(milp);
-    s.solve(x);
+    s.solve();
 
     ASSERT_TRUE(s.isOptimal());
-    ASSERT_EQ(expected, x);
+    ASSERT_EQ(expected, s.getOptimalSolution());
     ASSERT_DOUBLE_EQ(3, s.getOptimalValue());
 }
 
@@ -180,12 +174,10 @@ TEST(ToblexTest, Phase1UnboundedTest1)
     milp.setObjective(c);
 
     Vecd Ai(2); Ai << -1, -1;
-    milp.addInequalityConstraint(Ai, -3);
-
-    Vecd x(2);
+    milp.addConstraint(Ai, -3, MILP::LEQ);
 
     auto s = ToblexSolver(milp);
-    s.solve(x);
+    s.solve();
 
     ASSERT_TRUE(s.isUnbounded());
 }
@@ -201,7 +193,6 @@ TEST(ToblexTest, SomeRandomProblemTest)
     Vecd c(2);  c << 2, -1;
     auto milp = MILP(c, A, b, B, d, 2);
 
-    Vecd x(2);
     Vecd expected(2); expected << 11./3., 1./3.;
 
     ASSERT_EQ(2, milp.dimension());
@@ -209,12 +200,12 @@ TEST(ToblexTest, SomeRandomProblemTest)
     ASSERT_EQ(1, milp.nEqualities());
 
     auto s = ToblexSolver(milp);
-    s.solve(x);
+    s.solve();
 
     //std::cout << s << std::endl;
 
     ASSERT_TRUE(s.isOptimal());
-    ASSERT_TRUE((expected - x).squaredNorm() < 1e-9);
+    ASSERT_TRUE((expected - s.getOptimalSolution()).squaredNorm() < 1e-9);
     ASSERT_DOUBLE_EQ(7.0, s.getOptimalValue());
 }
 
@@ -233,6 +224,23 @@ TEST(CuttingPlaneTest, OptBookP331Test)
     ASSERT_EQ(2, solver.numberOfCuts());
     ASSERT_EQ(expected, solver.optimalSolution());
     ASSERT_DOUBLE_EQ(-1, solver.optimalValue());
+}
+
+TEST(CuttingPlaneTest, IntegerProblemIsInfeasibleTest)
+{
+    auto milp = MILP(2);
+    Vecd v(2);
+    v << -1, -1; milp.setObjective(v);
+    v << 1, 0; milp.addConstraint(v, 0.25, MILP::GEQ); // x >= 0.25
+    v << 1, 0; milp.addConstraint(v, 0.75, MILP::LEQ); // x <= 0.75
+    v << 0, 1; milp.addConstraint(v, 0.25, MILP::GEQ); // y >= 0.25
+    v << 0, 1; milp.addConstraint(v, 0.75, MILP::LEQ); // y <= 0.75
+
+    auto solver = CuttingPlanes(milp);
+    solver.solve();
+
+    ASSERT_EQ(1, solver.numberOfCuts());
+    ASSERT_TRUE(solver.isInfeasible());
 }
 
 int main(int argc, char** argv)

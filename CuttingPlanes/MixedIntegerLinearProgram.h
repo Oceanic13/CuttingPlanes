@@ -8,6 +8,8 @@ class MixedIntegerLinearProgram
 {
 public:
 
+    enum ConstraintType {LEQ=0, GEQ=1, EQ=2};
+
     /**
      * @brief MixedIntegerLinearProgram min c^Tx s.t. Ax <= b and Bx = d and x >= 0 and x_i integer for i = 1,...,n1 <= n
      * @param c Cost Coefficients
@@ -16,16 +18,21 @@ public:
      * @param n1 Number of integer constraints
      */
     explicit MixedIntegerLinearProgram(const Vecd& c, const Matd& A, const Vecd& b, const Matd& B, const Vecd& d, const int& n1)
-        : dim(c.size()), nIneqs(b.size()), nEqs(d.size()), c(c), A(A), b(b), B(B), d(d), n1(n1)
+        : n(c.size()), m(b.size()), p(d.size()), c(c), A(A), b(b), B(B), d(d), n1(n1)
     {
-        assert(A.rows() == nIneqs && A.cols() == dim);
-        assert(B.rows() == nEqs && B.cols() == dim);
-        assert(n1 <= dim);
+        assert(A.rows() == m && A.cols() == n);
+        assert(B.rows() == p && B.cols() == n);
+        assert(n1 <= n);
     }
 
     MixedIntegerLinearProgram(int n) : MixedIntegerLinearProgram(Vecd(n),Matd(0,n),Vecd(0),Matd(0,n),Vecd(0),n) {}
 
     MixedIntegerLinearProgram() : MixedIntegerLinearProgram(0) {}
+
+    MixedIntegerLinearProgram(const std::string& filename)
+    {
+        importJson(filename);
+    }
 
     void setObjective(const Vecd& c) {
         assert(c.size() == dimension());
@@ -44,37 +51,47 @@ public:
         return MixedIntegerLinearProgram(c, A, b, B, d, c.size());
     }
 
-    void addInequalityConstraint(const Vecd& Ai, const double& bi)
+    void addConstraint(const Vecd& coeffs, const double& rhs, const ConstraintType type = LEQ)
     {
-        nIneqs++;
-        b.conservativeResize(nIneqs);
-        A.conservativeResize(nIneqs, Eigen::NoChange);
-        b[nIneqs-1] = bi;
-        A.row(nIneqs-1) = Ai;
+        if (type == EQ)
+        {
+            p++;
+            d.conservativeResize(p);
+            B.conservativeResize(p, Eigen::NoChange);
+            d[p-1] = rhs;
+            B.row(p-1) = coeffs;
+        }
+        else
+        {
+            m++;
+            b.conservativeResize(m);
+            A.conservativeResize(m, Eigen::NoChange);
+            b[m-1] = (type==LEQ)? rhs : -rhs;
+            A.row(m-1) = (type==LEQ)? coeffs : -coeffs;
+        }
     }
 
-    void addEqualityConstraint(const Vecd& Bi, const double& di)
+    inline bool isFeasible(const Vecd& x)
     {
-        nEqs++;
-        d.conservativeResize(nEqs);
-        B.conservativeResize(nEqs, Eigen::NoChange);
-        d[nEqs-1] = di;
-        B.row(nEqs-1) = Bi;
+        assert(x.size()==n);
+        return (x.array()>=0).all() &&
+               ((A*x).array() <= b.array()).all() &&
+               (B*x).isApprox(d);
     }
 
-    inline const uint dimension() {return dim;}
+    inline const uint dimension() {return n;}
 
-    inline const uint nInequalities() {return nIneqs;}
+    inline const uint nInequalities() {return m;}
 
-    inline const uint nEqualities() {return nEqs;}
+    inline const uint nEqualities() {return p;}
 
     inline const uint nIntegerConstraints() {return n1;}
 
-    inline const bool isIntegerConstrained(const uint& i) {assert(i>=0&&i<dim); return i < n1;}
+    inline const bool isIntegerConstrained(const uint& i) {assert(i>=0&&i<n); return i < n1;}
 
     inline const bool isLP() {return n1==0;}
 
-    inline const bool isILP() {return n1==dim;}
+    inline const bool isILP() {return n1==n;}
 
     inline const Vecd& costCoefficients() {return c;}
 
@@ -86,9 +103,46 @@ public:
 
     inline const Vecd& equalityVector() {return d;}
 
+    void exportJson(const std::string& filename)
+    {
+        std::ofstream o(filename);
+        o << std::setw(4) << asJson() << std::endl;
+        o.close();
+    }
+
+    Json asJson()
+    {
+        Json j = {
+            {"c", c},
+            {"A", A.rowwise()},
+            {"b", b},
+            {"B", B.rowwise()},
+            {"d", d},
+            {"n", n},
+            {"m", m},
+            {"p", p},
+            {"n1", n1},
+        };
+        return j;
+    }
+
+    void importJson(const std::string& filename)
+    {
+        Json j = Json::parse(std::ifstream(filename));
+        n = j["n"];
+        m = j["m"];
+        p = j["p"];
+        n1 = j["n1"];
+        A = toMatd(j["A"]);
+        b = toVecd(j["b"]);
+        B = toMatd(j["B"]);
+        d = toVecd(j["d"]);
+        c = toVecd(j["c"]);
+    }
+
     friend std::ostream& operator<< (std::ostream& out, const MixedIntegerLinearProgram& lp) {
-        out << "========================Linear Program========================" << std::endl;
-        out << &lp << std::endl;
+        out << "================ Mixed Integer Linear Program ================" << std::endl;
+        //out << &lp << std::endl;
         out << "c:\n" << lp.c.transpose() << std::endl;
         out << "A:\n" << lp.A << std::endl;
         out << "b:\n" << lp.b.transpose() << std::endl;
@@ -99,9 +153,9 @@ public:
     }
 
 private:
-    uint dim;
-    uint nIneqs;
-    uint nEqs;
+    uint n;
+    uint m;
+    uint p;
     Vecd c;
     Matd A;
     Vecd b;
