@@ -25,6 +25,8 @@ public:
         assert(n1 <= n);
     }
 
+    MixedIntegerLinearProgram(const Vecd& c) : MixedIntegerLinearProgram(c,Matd(0,c.size()),Vecd(0),Matd(0,c.size()),Vecd(0),c.size()) {}
+
     MixedIntegerLinearProgram(int n) : MixedIntegerLinearProgram(Vecd(n),Matd(0,n),Vecd(0),Matd(0,n),Vecd(0),n) {}
 
     MixedIntegerLinearProgram() : MixedIntegerLinearProgram(0) {}
@@ -138,11 +140,17 @@ public:
         B = toMatd(j["B"]);
         d = toVecd(j["d"]);
         c = toVecd(j["c"]);
+        A.conservativeResize(m, n);
+        B.conservativeResize(p, n);
+        b.conservativeResize(m);
+        d.conservativeResize(p);
+        c.conservativeResize(n);
     }
 
     friend std::ostream& operator<< (std::ostream& out, const MixedIntegerLinearProgram& lp) {
         out << "================ Mixed Integer Linear Program ================" << std::endl;
         //out << &lp << std::endl;
+        out << "n, m, p, n1: " << lp.n << ", " << lp.m << ", " << lp.p << ", " << lp.n1 << std::endl;
         out << "c:\n" << lp.c.transpose() << std::endl;
         out << "A:\n" << lp.A << std::endl;
         out << "b:\n" << lp.b.transpose() << std::endl;

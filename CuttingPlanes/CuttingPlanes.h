@@ -47,6 +47,8 @@ public:
             double v = solver.getOptimalValue();
             x = solver.getOptimalSolution();
 
+            std::cout << "Simplex: " << x.transpose() << " with value " << v << std::endl;
+
             simplex_solutions.push_back(x);
             simplex_values.push_back(v);
 
@@ -56,10 +58,12 @@ public:
                 cuts_coeffs.push_back(Ai);
                 cuts_rhs.push_back(bi);
                 addInequalityConstraint(Ai, bi);
+                std::cout << "Add Cut " << Ai.transpose() << " <= " << bi << std::endl;
             } else {
                 solStat = ToblexSolver::OPTIMAL;
                 optimal_solution = x;
                 optimal_value = v;
+                std::cout << "Finished: " << x.transpose() << " with value " << v << std::endl;
                 break;
             }
         }
