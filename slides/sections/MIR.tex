@@ -1,0 +1,92 @@
+\section{Mixed Integer Rounding}
+
+\begin{frame}{Integer Rounding}
+The generation of cuts is based on some simple observations.
+If $x \in \mathbb{Z}$ and $x \leq b$, then $x \leq \floor{b}$
+\end{frame}
+
+\begin{frame}{Chvátal–Gomory Inequality for ILPs}
+Consider the inequality $\sum_{j=1}^n a_{ij} x_j \leq b_i$ for an Integer Linear Program ($x \in \mathbb{Z}_{\geq 0}^n$).
+Then the following inequalities are valid for any $\alpha \geq 0$:
+\begin{enumerate}
+	\item $\sum_{j=1}^n \alpha a_{ij} x_j \leq \alpha b_i$ \hfill $\alpha \geq 0$
+	\item $\sum_{j=1}^n \floor{\alpha a_{ij}} x_j \leq \alpha b_i$ \hfill $x_j \geq 0$
+	\item $\sum_{j=1}^n \floor{\alpha a_{ij}} x_j \leq \floor{ \alpha b_i}$ \hfill $x_j \in \mathbb{Z}$
+\end{enumerate}
+% Need xj >= 0. Otherwise, if aij,xj < 0 then possibly floor(aij)xj > aij xj
+
+% Last Equation follows from x <= b for x integer => x <= floor(b) and the fact that if xj is int then also sum floor(...)x_j is integer
+\end{frame}
+
+\begin{frame}{Chvátal–Gomory Inequality for ILPs}
+Illustration %TODO
+\end{frame}
+
+\begin{frame}{Basic Mixed Integer Rounding Inequalities I}
+Let $x \in \mathbb{Z}_{\geq 0}, y \in \mathbb{R}_{\geq 0}, b \in \mathbb{R}_{>0} \setminus \mathbb{Z}$. Then the following hold:
+\begin{align}
+x+y \leq b &\Rightarrow x \leq \floor{b} \\
+-x+y \leq -b &\Rightarrow x \geq \ceil{b}
+\end{align}
+\end{frame}
+
+\begin{frame}{Basic Mixed Integer Rounding Inequalities II}
+Let $x \in \mathbb{Z}_{\geq 0}, y \in \mathbb{R}_{\geq 0}, b \in \mathbb{R}_{>0} \setminus \mathbb{Z}$. Then the following hold:
+\begin{align}
+x-y \leq b &\Rightarrow x - \frac{1}{f_b-1} \leq \floor{b} \\
+-x-y \leq -b &\Rightarrow x + \frac{1}{f_b} \geq \ceil{b}
+\end{align}
+where $f_b = b - \floor{b} \in (0,1)$ is the fractional part of $b$.
+\end{frame}
+
+\begin{frame}{General Mixed Integer Rounding Inequality}
+Let $F_{MIR} = \{(x,y) \in \mathbb{Z}_{\geq 0}^2 \times \mathbb{R}_{\geq 0} \:\vert\: a_1x_1+a_2x2-y\leq b \}$ and $f_i=a_i-\floor{a_i}$ for $i=1,2$ where $a \in \mathbb{R}^2, b \in \mathbb{R} \setminus \mathbb{Z}$ and suppose that $f_1 \leq f_b \leq f_2$. Then the inequality
+
+\begin{equation*}
+\floor{a_1}x_1 + \left( \floor{a_2}+ \frac{f_2 - f_b}{1 - f_b} \right) x_2 - \frac{1}{1-f_b}y \leq \floor{b}
+\end{equation*}
+
+is valid for $F_{MIR}$.
+\end{frame}
+
+\begin{frame}{Simplex Algorithm}
+Recall that the Simplex Algorithm transforms a LP with a feasible polyhedron $P_{LP}$ to slack-form and produces an optimal solution $x^* \in P_{LP} \times \mathbb{R}_{\geq 0}^{N-n}$ and equalities of the form:
+\begin{center}
+\begin{minipage}{0.8\textwidth}
+	\begin{tcolorbox}[colback=white, title={The $i-$th row in the simplex tableau}]
+    \begin{equation*}
+    	x_{B_i} + \sum\limits_{\substack{j \in NB}} \bar{a}_{ij} x_j = \bar{b_i}
+    \end{equation*}
+    \end{tcolorbox}
+\end{minipage}
+\end{center}
+where $x_{n+1},...,x_N \geq 0$ are slack variables, $B=\{B_1,...,B_m\}$ are the indices of the basic variables and $NB = \{1,...,N\} \setminus B$ are the indices of the nonbasic variables ($x_j^*=0$ for $j \in NB$).
+\end{frame}
+
+\begin{frame}{Cutting Planes Algorithm}
+\begin{itemize}
+\item Let a MILP be given with feasible region $F_{MILP} = \{x \in \mathbb{Z}_{\geq 0}^{n_1} \times \mathbb{R}_{\geq 0}^{n-n_1} \:\vert\: Ax \leq b \}$ for some $A \in \mathbb{R}^{m \times n}, b \in \mathbb{R}^m$.
+\item The relaxation is the LP obtained by removing the integer constraints, so its feasible region is the polyhedron $P_{LP} = \{x \in \mathbb{R}_{\geq 0}^{n} \:\vert\: Ax \leq b \}$.
+\item Repeat the following two steps until $x^* \in F_{MILP}$:
+\begin{enumerate}
+\item Solve the LP using the Simplex Algorithm and obtain $x^* \in P_{LP}$
+\item If $x^* \notin F_{MILP}$, add an inequality that is valid for $F_{MILP}$ and not satisfied by $x^*$.
+\end{enumerate}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Gomory Mixed Integer Cut}
+Let $N_1= NB \cap \{1,...,n_1\}, N_2 = NB \cap \{n_1+1,...,x_N\}$. Consider the $i-$th row in the optimal simplex tableau
+\begin{equation*}
+    x_{B_i} + \sum\limits_{\substack{j \in N_1}} \bar{a}_{ij} x_j + \sum\limits_{\substack{j \in N_2}} \bar{a}_{ij} x_j = \bar{b_i}
+\end{equation*}
+and assume $B_i \in N_1$ but $x_{B_i}^*=\bar{b_i} \notin \mathbb{Z}$. Then the \emph{Gomory Mixed Integer Cut}
+\begin{tcolorbox}[colback=white]
+\begin{equation*}
+\sum\limits_{\substack{j \in N_1 \\ f_{ij} \leq f_i}} \floor{\bar{a}_{ij}} x_j + \sum\limits_{\substack{j \in N_1 \\ f_{ij} > f_i}} \left( \floor{\bar{a}_{ij}} + \frac{f_{ij}-f_i}{1-f_i} \right) x_j + \sum\limits_{\substack{j \in N_2 \\ \bar{a}_{ij} < 0}} \left( \frac{\bar{a}_{ij}}{1-f_i} \right) x_j \leq \floor{\bar{b_i}}
+\end{equation*}
+\end{tcolorbox}
+% Remark: In literature often with four sums and ... >= f_b. One is obtained by subtracting the other from the initial row.
+
+is a valid inequality for $F_{MILP}$ that is not satisfied by $x^*$.
+\end{frame}

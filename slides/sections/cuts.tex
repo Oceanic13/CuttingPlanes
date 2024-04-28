@@ -1,0 +1,45 @@
+\section{Valid Inequalities and Cuts}
+
+\begin{frame}{Valid Inequality}
+\begin{itemize}
+	\item An inequality $a^\top x \leq r$ is \emph{valid} for a MILP if $a^\top x \leq r$ is satisfied for all $x \in F$.
+	\item Given an optimal solution $x^*$ of the relaxation of a MILP which does not solve the MILP itself
+	\begin{equation*}
+		x^* \notin F
+	\end{equation*}
+	a \emph{cut} $a^\top x \leq r$ is a valid inequality which cuts off the invalid solution $x^*$:
+	\begin{equation*}
+		a^\top x^* > r \text{ and } a^\top x \leq r \quad \forall x \in F
+	\end{equation*}
+\end{itemize}
+
+%TODO
+\end{frame}
+
+\begin{frame}{Cutting Planes Algorithm}
+	Illustration %TODO
+\end{frame}
+
+\begin{frame}{Cutting Planes Algorithm}
+     \begin{algorithmic}[1]
+     \begin{suppresslines}
+         \Input
+             \State MILP with feasible region $F$
+         \EndInput
+     \end{suppresslines}
+     \State LP $\gets$ Relaxation of MILP
+     \Repeat
+    	\State $x^*$ $\gets$ Optimal solution of LP 
+    	\If{$\exists 1 \leq i \leq n_1$ s.t. $x_i^* \notin \mathbb{Z}$}
+    		\State Add an inequality $a^\top x \leq r$ to LP
+    		\State s.t. $a^\top x^* > r$ and $a^\top x \leq r \forall x \in F$
+    	\EndIf 
+    \Until{$x_1^*,...,x_{n_1}^* \in \mathbb{Z}$}
+    \State \textbf{return} $x^*$
+   \end{algorithmic}
+\end{frame}
+
+\begin{frame}[c]{Good Cuts?}
+\centering\huge
+	Question: How to generate ``good'' and useful cuts?
+\end{frame}

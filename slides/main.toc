@@ -1,0 +1,4 @@
+\babel@toc {english}{}\relax 
+\beamer@sectionintoc {1}{Mixed Integer Linear Program}{2}{0}{1}
+\beamer@sectionintoc {2}{Valid Inequalities and Cuts}{5}{0}{1}
+\beamer@sectionintoc {3}{Mixed Integer Rounding}{10}{0}{1}
