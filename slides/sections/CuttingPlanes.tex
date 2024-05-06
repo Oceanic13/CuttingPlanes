@@ -1,0 +1,241 @@
+\section{Cutting Planes}
+
+\begin{frame}{Cutting Planes}
+	Illustration %TODO
+\end{frame}
+
+\begin{frame}{Valid Inequalities and Cuts}
+\begin{itemize}
+	\item An inequality $a^\top x \leq r$ is \emph{valid} for a set $F_{MILP}$ if $a^\top x \leq r$ is satisfied for all $x \in F_{MILP}$.
+	\item For $x_{LP}^* \in P_{LP} \setminus F_{MILP}$ we define a \emph{cutting plane} (or cut) w.r.t. $x_{LP}^*$ as any valid inequality $a^\top x \leq r$ for $F_{MILP}$ such that:
+	\begin{equation*}
+		a^\top x_{LP}^* > r
+	\end{equation*}
+\end{itemize}
+
+%TODO
+\end{frame}
+
+\begin{frame}{Cutting Planes Algorithm}
+     \begin{algorithmic}[1]
+     \State LP $\gets$ Relaxation of the MILP
+     \Repeat
+    	\State $x^*$ $\gets$ Optimal solution of the LP 
+    	\If{$(x_1^*,...,x_{n_1}^*) \notin \mathbb{Z}^{n_1}$}
+    		\State Add a cut w.r.t. $x^*$ to the LP
+    	\EndIf 
+    \Until{$(x_1^*,...,x_{n_1}^*) \in \mathbb{Z}^{n_1}$}
+    \State \textbf{return} $x^*$
+   \end{algorithmic}
+\end{frame}
+
+\begin{frame}[c]{Cutting Strategy}
+\centering\large
+	Question: How to generate ``good'' and useful cuts?
+	\begin{itemize}[<+(1)->]
+	\item Good: Cut away as much as possible (while staying feasible)
+	\item Useful: Cut away the optimal solution of the relaxation
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Convex Hull}
+Create convex hull - equivalent to relaxation. But too expensive (exponential!) %TODO
+\end{frame}
+
+\begin{frame}{Integer Part and Fractional Part}
+\begin{columns}
+
+\column{0.5\textwidth}
+Any real number $a \in \mathbb{R}$ can be expressed as
+\begin{equation*}
+a = \floor{a} + f_a
+\end{equation*}
+for some unique $\floor{a} \in \mathbb{Z}$ and $f_a \in [0,1)$.
+\begin{itemize}
+\item $\floor{a} = \max\{z \in \mathbb{Z} \:\vert\: z \leq a\}$ is the\newline
+\emph{integer part} of $a$.
+\item $f_a = a - \floor{a}$ is the\newline
+\emph{fractional part} of $a$.
+\end{itemize}
+
+
+\column{0.5\textwidth}
+\begin{itemize}[<+(1)->]
+	\item $f_a = 0 \Leftrightarrow a=\floor{a} \Leftrightarrow a \in \mathbb{Z}$
+	\item $\floor{-a} = -\ceil{a}$ where $\ceil{a} = \min\{z \in \mathbb{Z} \:\vert\: z \geq a\}$
+	\item $a \in \mathbb{Z}$ and $a \leq b \Rightarrow a \leq \floor{b}$
+	\item $a \in \mathbb{Z}$ and $a \geq b \Rightarrow a \geq \ceil{b}$
+	\end{itemize}
+
+\end{columns}
+\end{frame}
+
+\begin{frame}{Chvátal–Gomory Inequality for Integer Linear Programs}
+Let $\sum_{j=1}^n a_{ij} x_j \leq b_i$ for an Integer Linear Program ($x \in \mathbb{Z}_{\geq 0}^n$).
+Then the following inequalities are valid for any $\alpha \geq 0$:
+\begin{enumerate}
+	\item $\sum_{j=1}^n \alpha a_{ij} x_j \leq \alpha b_i$ \hfill $\alpha \geq 0$
+	\item $\sum_{j=1}^n \floor{\alpha a_{ij}} x_j \leq \alpha b_i$ \hfill $x_j \geq 0$
+	\item $\sum_{j=1}^n \floor{\alpha a_{ij}} x_j \leq \floor{ \alpha b_i}$ \hfill $x_j \in \mathbb{Z}$
+\end{enumerate}
+% Need xj >= 0. Otherwise, if aij,xj < 0 then possibly floor(aij)xj > aij xj
+
+% Last Equation follows from x <= b for x integer => x <= floor(b) and the fact that if xj is int then also sum floor(...)x_j is integer
+\end{frame}
+
+\begin{frame}{Example}
+Illustration %TODO
+\end{frame}
+
+\begin{frame}{Chvátal–Gomory Inequality}
+If not all variables are integer, these inequalities are not valid.
+Show that it does not work for mixed integer problem %TODO
+\end{frame}
+
+\begin{frame}{Basic Mixed Integer Rounding Inequalities I}
+\only<1>{
+Let $x \in \mathbb{Z}_{\geq 0}, y \in \mathbb{R}_{\geq 0}, b \in \mathbb{R}_{>0} \setminus \mathbb{Z}$. Then
+\begin{equation}
+x \leq \floor{b} \text{ is a valid inequality for } \{x+y \leq b\}
+\end{equation}
+and
+\begin{equation}
+x \geq \ceil{b} \text{ is a valid inequality for } \{-x+y \leq -b\}
+\end{equation}
+}
+
+\only<2>{
+Hello World
+%TODO :  Illustration and math proof
+}
+\end{frame}
+
+\begin{frame}{Basic Mixed Integer Rounding Inequalities II}
+\only<1>{
+Let $x \in \mathbb{Z}_{\geq 0}, y \in \mathbb{R}_{\geq 0}, b \in \mathbb{R}_{>0} \setminus \mathbb{Z}$. Then
+\begin{equation}
+x - \frac{1}{f_b-1} \leq \floor{b} \text{ is a valid inequality for } \{x-y \leq b\}
+\end{equation}
+and
+\begin{equation}
+x + \frac{1}{f_b} \geq \ceil{b} \text{ is a valid inequality for } \{-x-y \leq -b\}
+\end{equation}
+}
+
+\only<2>{
+%TODO :  Illustration and math proof
+}
+
+\end{frame}
+
+\begin{frame}{General Mixed Integer Rounding Inequality}
+
+\only<1>{
+Let $F_{MIR} = \{(x,y) \in \mathbb{Z}_{\geq 0}^2 \times \mathbb{R}_{\geq 0} \:\vert\: a_1x_1+a_2x2-y\leq b \}$ where $a \in \mathbb{R}^2, b \in \mathbb{R} \setminus \mathbb{Z}$ and assume that $f_1 \leq f_b \leq f_2$. Then the inequality
+
+\begin{equation*}
+\floor{a_1}x_1 + \left( \floor{a_2}+ \frac{f_2 - f_b}{1 - f_b} \right) x_2 - \frac{1}{1-f_b}y \leq \floor{b}
+\end{equation*}
+is valid for $F_{MIR}$.
+}
+
+\only<2>{
+%TODO Math Proof
+}
+
+\end{frame}
+
+\begin{frame}{Simplex Algorithm}
+Simplex finds $x^* \in P_{LP} \times \mathbb{R}_{\geq 0}^{N-n}$ and creates the optimal simplex tableau:
+\begin{center}
+\begin{minipage}{0.8\textwidth}
+	\begin{tcolorbox}[colback=white, title={$i-$th row in the simplex tableau}]
+    \begin{equation*}
+    	x_{B_i} + \sum\limits_{\substack{j \in NB}} \bar{a}_{ij} x_j = \bar{b_i}
+    \end{equation*}
+    \end{tcolorbox}
+\end{minipage}
+\end{center}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{itemize}
+\item $x_1,...,x_{n_1}$: Integer problem variables
+\item $x_{n_1+1},...,x_n$: Real problem variables
+\item $x_{n+1},...,x_N$: (Real) slack variables
+\end{itemize}
+
+\column{0.5\textwidth}
+\begin{itemize}
+\item $B=\{B_1,...,B_m\}$: Basic variables
+\item $NB = \{1,...,N\} \setminus B$: Nonbasic variables ($x_j^*=0$ for $j \in NB$)
+\end{itemize}
+\end{columns}
+%Note: In some cases we also know that some slack variables must be integer
+\end{frame}
+
+\begin{frame}{Gomory Mixed Integer Cut}
+
+\only<1>{
+Let $N_1= NB \cap \{1,...,n_1\}, N_2 = NB \cap \{n_1+1,...,x_N\}$. Consider the $i-$th row in the optimal simplex tableau
+\begin{equation*}
+    x_{B_i} + \sum\limits_{\substack{j \in N_1}} \bar{a}_{ij} x_j + \sum\limits_{\substack{j \in N_2}} \bar{a}_{ij} x_j = \bar{b_i}
+\end{equation*}
+and assume $B_i \leq n_1$ but $x_{B_i}^*=\bar{b_i} \notin \mathbb{Z}$. Then the \emph{Gomory Mixed Integer Cut}
+\begin{tcolorbox}[colback=white]
+\begin{equation*}
+x_{B_i} + \sum\limits_{\substack{j \in N_1 \\ f_{ij} \leq f_i}} \floor{\bar{a}_{ij}} x_j + \sum\limits_{\substack{j \in N_1 \\ f_{ij} > f_i}} \left( \floor{\bar{a}_{ij}} + \frac{f_{ij}-f_i}{1-f_i} \right) x_j + \sum\limits_{\substack{j \in N_2 \\ \bar{a}_{ij} < 0}} \left( \frac{\bar{a}_{ij}}{1-f_i} \right) x_j \leq \floor{\bar{b_i}}
+\end{equation*}
+\end{tcolorbox}
+% Remark: In literature often with four sums and ... >= f_b. One is obtained by subtracting the other from the initial row.
+% Math Proof
+
+is a valid inequality for $F_{MILP}$ that is not satisfied by $x^*$.
+}
+
+\only<2>{
+%TODO Proof
+}
+
+\end{frame}
+
+\begin{frame}{Cutting Planes Algorithm}
+\begin{itemize}
+\item Let a MILP be given with feasible region $F_{MILP} = \{x \in \mathbb{Z}_{\geq 0}^{n_1} \times \mathbb{R}_{\geq 0}^{n-n_1} \:\vert\: Ax \leq b \}$ for some $A \in \mathbb{R}^{m \times n}, b \in \mathbb{R}^m$.
+\item The relaxation is the LP obtained by removing the integer constraints, so its feasible region is the polyhedron $P_{LP} = \{x \in \mathbb{R}_{\geq 0}^{n} \:\vert\: Ax \leq b \}$.
+\item Repeat the following two steps until $x^* \in F_{MILP}$:
+\begin{enumerate}
+\item Solve the LP using the Simplex Algorithm and obtain $x^* \in P_{LP}$
+\item TODO %TODO
+\end{enumerate}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Project Demonstration}
+%TODO
+% Simplex Algorithm
+% Mixed Integer Gomory Cuts
+% Python Visualizer
+
+%\begin{tcolorbox}[colback=white, title={MILP Standard Form}]
+%    \begin{align*}
+%    	\min_{x}\quad &-y \\
+%    	\text{s.t.}\quad & 3x + 2y \leq 6 \\
+%    	& -3x + 2y \leq 0 \\
+%    	& x, y \in \mathbb{Z}_{\geq 0}
+%    \end{align*}
+%    \end{tcolorbox}
+%    
+%    %Also mention resubstitution of slack variables
+\end{frame}
+
+\begin{frame}{Selecting Cutting Planes}
+\begin{itemize}[<+->]
+\item Only adding an arbitrary, single cutting plane is very inefficient if the problem dimension is large.
+\begin{itemize}
+\item Heuristic to evaluate the efficiency of a cutting plane (e.g. euclidean distance to $x^*$).
+\item Add multiple cutting planes in each iteration.
+\end{itemize}
+\item Other cutting plane strategies exist.
+%TODO Different Cutting Planes methods have been proposed/also depending on the specific problem
+\end{itemize}
+\end{frame}

@@ -1,9 +1,9 @@
 \input{header.sty}
 \bibliography{refs.bib}
 
-\includeonly{sections/MIR}
+%\includeonly{sections/MIR}
 
-\title{Cutting Plane Methods}
+\title{Solving\\ Mixed Integer Linear Programs\\ using\\ Cutting Planes}
 \author{Tobias Kohler}
 \date{May 16, 2024}
 
@@ -18,18 +18,19 @@
 \include{sections/MILP}
 
 % Cutting Planes, Idea, Validity of Cuts (remove optimal point from relaxation and dont lose any feasible points from original problem), Visualizations
-\include{sections/cuts}
-
 % Mixed Integer Rounding, Visualizations
 % Simplex Algorithm -> Simplex Tableau (very brief as presentation is on same day)
 % Gomory Cuts, Integer case, General Mixed Integer case
-\include{sections/MIR}
-
+% Consider more than just a single variable to generate a cut
 % Project Demo on Example Problem(s)
-
-% Other types of cuts? Cuts for 0-1 programs?
-
 % Edge cases (invalid problems, unbounded)
+\include{sections/CuttingPlanes}
+
+% See AOPT
+\include{sections/BranchBound}
+
+\include{sections/BranchCut}
+
 
 % Runtime analysis, Performance, Background, -> Branch & Cut as Improvement
 
