@@ -1,15 +1,55 @@
 \section{Cutting Planes}
 
 \begin{frame}{Cutting Planes}
-	Illustration %TODO
+Solve the problem relaxation. If integer constraints are violated, add additional inequalities to the problem.
+
+\only<1>{
+\centering
+\begin{figure}[tb]
+\includesvg[]{imgs/cp_idea_0.svg}
+\end{figure}
+}
+\only<2>{
+\centering
+\begin{figure}[tb]
+\includesvg[]{imgs/cp_idea_1.svg}
+\end{figure}
+}
+\only<3>{
+\centering
+\begin{figure}[tb]
+\includesvg[]{imgs/cp_idea_2.svg}
+\end{figure}
+}
+\only<4>{
+\centering
+\begin{figure}[tb]
+\includesvg[]{imgs/cp_idea_3.svg}
+\end{figure}
+}
+\only<5>{
+\centering
+\begin{figure}[tb]
+\includesvg[]{imgs/cp_idea_4.svg}
+\end{figure}
+}
+\only<6>{
+\centering
+\begin{figure}[tb]
+\includesvg[]{imgs/cp_idea_5.svg}
+\end{figure}
+}
 \end{frame}
 
 \begin{frame}{Valid Inequalities and Cuts}
-\begin{itemize}
-	\item An inequality $a^\top x \leq r$ is \emph{valid} for a set $F_{MILP}$ if $a^\top x \leq r$ is satisfied for all $x \in F_{MILP}$.
-	\item For $x_{LP}^* \in P_{LP} \setminus F_{MILP}$ we define a \emph{cutting plane} (or cut) w.r.t. $x_{LP}^*$ as any valid inequality $a^\top x \leq r$ for $F_{MILP}$ such that:
+\begin{itemize}[<+->]
+	\item An inequality $a^\top x \leq r$ is \emph{valid} for a set $F$ if $a^\top x \leq r$ is satisfied for all $x \in F$.
+	\begin{itemize}
+		\item For example: $x \leq 2$ is a valid inequality for $\{x \in \mathbb{Z}_{\geq 0} \:\vert\: x \leq 2.718 \}$
+	\end{itemize}
+	\item A \emph{cutting plane} (or cut) w.r.t. $\hat{x} \in P \setminus F$ is any valid inequality $a^\top x \leq r$ for $F$ such that:
 	\begin{equation*}
-		a^\top x_{LP}^* > r
+		a^\top \hat{x} > r
 	\end{equation*}
 \end{itemize}
 
@@ -20,12 +60,12 @@
      \begin{algorithmic}[1]
      \State LP $\gets$ Relaxation of the MILP
      \Repeat
-    	\State $x^*$ $\gets$ Optimal solution of the LP 
-    	\If{$(x_1^*,...,x_{n_1}^*) \notin \mathbb{Z}^{n_1}$}
-    		\State Add a cut w.r.t. $x^*$ to the LP
+    	\State $\hat{x}$ $\gets$ Optimal solution of the LP 
+    	\If{$(\hat{x}_1,...,\hat{x}_{n_1}) \notin \mathbb{Z}^{n_1}$}
+    		\State Add a cut w.r.t. $\hat{x}$ to the LP
     	\EndIf 
-    \Until{$(x_1^*,...,x_{n_1}^*) \in \mathbb{Z}^{n_1}$}
-    \State \textbf{return} $x^*$
+    \Until{$(\hat{x}_1,...,\hat{x}_{n_1}) \in \mathbb{Z}^{n_1}$}
+    \State \textbf{return} $\hat{x}$
    \end{algorithmic}
 \end{frame}
 
@@ -39,7 +79,19 @@
 \end{frame}
 
 \begin{frame}{Convex Hull}
-Create convex hull - equivalent to relaxation. But too expensive (exponential!) %TODO
+\begin{columns}
+\column{0.5\textwidth}
+\begin{itemize}
+\item The relaxed solution $\hat{x}$ in $\text{conv}(F)$ also solves the MILP.
+\item But computing the convex hull is infeasible (exponential). %TODO find reference
+\end{itemize}
+
+\column{0.5\textwidth}
+\begin{figure}[p]
+        \centering
+        \includesvg[]{imgs/convex_hull.svg}
+    \end{figure}
+\end{columns}
 \end{frame}
 
 \begin{frame}{Integer Part and Fractional Part}
@@ -146,7 +198,7 @@ is valid for $F_{MIR}$.
 \end{frame}
 
 \begin{frame}{Simplex Algorithm}
-Simplex finds $x^* \in P_{LP} \times \mathbb{R}_{\geq 0}^{N-n}$ and creates the optimal simplex tableau:
+Simplex finds $\hat{x} \in P \times \mathbb{R}_{\geq 0}^{N-n}$ and creates the optimal simplex tableau:
 \begin{center}
 \begin{minipage}{0.8\textwidth}
 	\begin{tcolorbox}[colback=white, title={$i-$th row in the simplex tableau}]
@@ -167,7 +219,7 @@ Simplex finds $x^* \in P_{LP} \times \mathbb{R}_{\geq 0}^{N-n}$ and creates the 
 \column{0.5\textwidth}
 \begin{itemize}
 \item $B=\{B_1,...,B_m\}$: Basic variables
-\item $NB = \{1,...,N\} \setminus B$: Nonbasic variables ($x_j^*=0$ for $j \in NB$)
+\item $NB = \{1,...,N\} \setminus B$: Nonbasic variables ($\hat{x}_j=0$ for $j \in NB$)
 \end{itemize}
 \end{columns}
 %Note: In some cases we also know that some slack variables must be integer
@@ -180,7 +232,7 @@ Let $N_1= NB \cap \{1,...,n_1\}, N_2 = NB \cap \{n_1+1,...,x_N\}$. Consider the 
 \begin{equation*}
     x_{B_i} + \sum\limits_{\substack{j \in N_1}} \bar{a}_{ij} x_j + \sum\limits_{\substack{j \in N_2}} \bar{a}_{ij} x_j = \bar{b_i}
 \end{equation*}
-and assume $B_i \leq n_1$ but $x_{B_i}^*=\bar{b_i} \notin \mathbb{Z}$. Then the \emph{Gomory Mixed Integer Cut}
+and assume $B_i \leq n_1$ but $\hat{x}_{B_i}=\bar{b_i} \notin \mathbb{Z}$. Then the \emph{Gomory Mixed Integer Cut}
 \begin{tcolorbox}[colback=white]
 \begin{equation*}
 x_{B_i} + \sum\limits_{\substack{j \in N_1 \\ f_{ij} \leq f_i}} \floor{\bar{a}_{ij}} x_j + \sum\limits_{\substack{j \in N_1 \\ f_{ij} > f_i}} \left( \floor{\bar{a}_{ij}} + \frac{f_{ij}-f_i}{1-f_i} \right) x_j + \sum\limits_{\substack{j \in N_2 \\ \bar{a}_{ij} < 0}} \left( \frac{\bar{a}_{ij}}{1-f_i} \right) x_j \leq \floor{\bar{b_i}}
@@ -189,7 +241,7 @@ x_{B_i} + \sum\limits_{\substack{j \in N_1 \\ f_{ij} \leq f_i}} \floor{\bar{a}_{
 % Remark: In literature often with four sums and ... >= f_b. One is obtained by subtracting the other from the initial row.
 % Math Proof
 
-is a valid inequality for $F_{MILP}$ that is not satisfied by $x^*$.
+is a valid inequality for $F$ that is not satisfied by $\hat{x}$.
 }
 
 \only<2>{
@@ -200,11 +252,11 @@ is a valid inequality for $F_{MILP}$ that is not satisfied by $x^*$.
 
 \begin{frame}{Cutting Planes Algorithm}
 \begin{itemize}
-\item Let a MILP be given with feasible region $F_{MILP} = \{x \in \mathbb{Z}_{\geq 0}^{n_1} \times \mathbb{R}_{\geq 0}^{n-n_1} \:\vert\: Ax \leq b \}$ for some $A \in \mathbb{R}^{m \times n}, b \in \mathbb{R}^m$.
-\item The relaxation is the LP obtained by removing the integer constraints, so its feasible region is the polyhedron $P_{LP} = \{x \in \mathbb{R}_{\geq 0}^{n} \:\vert\: Ax \leq b \}$.
-\item Repeat the following two steps until $x^* \in F_{MILP}$:
+\item Let a MILP be given with feasible region $F = \{x \in \mathbb{Z}_{\geq 0}^{n_1} \times \mathbb{R}_{\geq 0}^{n-n_1} \:\vert\: Ax \leq b \}$ for some $A \in \mathbb{R}^{m \times n}, b \in \mathbb{R}^m$.
+\item The relaxation is the LP obtained by removing the integer constraints, so its feasible region is the polyhedron $P = \{x \in \mathbb{R}_{\geq 0}^{n} \:\vert\: Ax \leq b \}$.
+\item Repeat the following two steps until $\hat{x} \in F$:
 \begin{enumerate}
-\item Solve the LP using the Simplex Algorithm and obtain $x^* \in P_{LP}$
+\item Solve the LP using the Simplex Algorithm and obtain $\hat{x} \in P$
 \item TODO %TODO
 \end{enumerate}
 \end{itemize}
@@ -232,7 +284,7 @@ is a valid inequality for $F_{MILP}$ that is not satisfied by $x^*$.
 \begin{itemize}[<+->]
 \item Only adding an arbitrary, single cutting plane is very inefficient if the problem dimension is large.
 \begin{itemize}
-\item Heuristic to evaluate the efficiency of a cutting plane (e.g. euclidean distance to $x^*$).
+\item Heuristic to evaluate the efficiency of a cutting plane (e.g. euclidean distance to $\hat{x}$).
 \item Add multiple cutting planes in each iteration.
 \end{itemize}
 \item Other cutting plane strategies exist.

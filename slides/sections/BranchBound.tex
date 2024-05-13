@@ -2,7 +2,23 @@
 
 \begin{frame}{Branch \& Bound}
 \begin{itemize}
-\item Similar to Cutting Planes - Solve Problem Relaxation, add constraints until solution is found
+\item Like Cutting Planes, we solve the problem relaxation and add constraints until an optimal solution has been found.
 \item Divide \& Conquer
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Branching}
+Cut off the non-integer neighborhood of $x_i^* \notin \mathbb{Z} \Rightarrow \text{ Two new relaxation problems}$
+\end{frame}
+
+\begin{frame}{Bounding}
+\begin{itemize}
+\item Initially, we only know that $-\infty < c^\top x_{MILP}^* < \infty$ (not very helpful).
+\item Improve bounds until Upper Bound $-$ Lower Bound $< \epsilon$:
+\begin{itemize}
+\item Lower Bound: For any LP-Relaxation, we have $c^\top x_{LP}^* \leq c^\top x_{MILP}^*$
+\item Upper Bound: By definition, $c^\top x_{MILP}^* \leq c^\top x$ for any feasible $x \in F_{MILP}$
+\end{itemize}
+
 \end{itemize}
 \end{frame}
