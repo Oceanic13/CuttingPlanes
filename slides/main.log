@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.10.15)  12 MAY 2024 19:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.10.15)  13 MAY 2024 22:47
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1515,6 +1515,20 @@ Package: environ 2014/05/04 v0.3 A new way to define environments
 \tcb@temp=\box142
 \tcb@temp=\box143
 )
+(C:\Users\tobi-\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\pifont.sty
+Package: pifont 2020/03/25 PSNFSS-v9.3 Pi font support (SPQR) 
+LaTeX Font Info:    Trying to load font information for U+pzd on input line 63.
+
+
+(C:\Users\tobi-\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\upzd.fd
+File: upzd.fd 2001/06/04 font definitions for U/pzd.
+)
+LaTeX Font Info:    Trying to load font information for U+psy on input line 64.
+
+
+(C:\Users\tobi-\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\upsy.fd
+File: upsy.fd 2001/06/04 font definitions for U/psy.
+))
 \c@oldalglno=\count524
 )
 
@@ -1709,114 +1723,115 @@ Package biblatex Info: Reference segment=0 on input line 10.
 \openout2 = `sections/MILP.aux'.
 
 (sections/MILP.tex
+<./svg-inkscape/milp_svg-raw.png, id=129, 162.6075pt x 141.6492pt>
+File: ./svg-inkscape/milp_svg-raw.png Graphic file (type png)
+<use ./svg-inkscape/milp_svg-raw.png>
+Package pdftex.def Info: ./svg-inkscape/milp_svg-raw.png  used on input line 37
+.
+(pdftex.def)             Requested size: 162.6071pt x 141.64883pt.
 LaTeX Font Info:    Trying to load font information for OT1+lmss on input line 
-27.
+37.
 
 (C:\Users\tobi-\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmss.fd
 File: ot1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 3
 7.
 
 (C:\Users\tobi-\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-27.
+37.
 
 (C:\Users\tobi-\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-27.
+37.
 
 (C:\Users\tobi-\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 27.
+(Font)              <10.95> on input line 37.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 27.
+(Font)              <8> on input line 37.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 27.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 27.
+(Font)              <6> on input line 37.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 37.
 
 
 (C:\Users\tobi-\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 27.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 37.
 
 
 (C:\Users\tobi-\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <10.95> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 27.
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 37.
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <8> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 27.
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 37.
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <6> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 27.
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 37.
 
-Overfull \hbox (5.24971pt too wide) detected at line 27
+Overfull \hbox (5.24971pt too wide) detected at line 37
 []
+ []
+
+<./svg-inkscape/lp_svg-raw.png, id=131, 166.221pt x 165.0165pt>
+File: ./svg-inkscape/lp_svg-raw.png Graphic file (type png)
+<use ./svg-inkscape/lp_svg-raw.png>
+Package pdftex.def Info: ./svg-inkscape/lp_svg-raw.png  used on input line 37.
+(pdftex.def)             Requested size: 166.22057pt x 165.01607pt.
+
+Overfull \vbox (3.1435pt too high) detected at line 37
  []
 
 [2
 
 
+ <./svg-inkscape/milp_svg-raw.png> <./svg-inkscape/lp_svg-raw.png>]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <12> on input line 50.
+LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <12> not available
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 50.
+ [3
+
 ]
-<./svg-inkscape/naive_rounding_svg-raw.png, id=173, 169.3527pt x 173.448pt>
+<./svg-inkscape/naive_rounding_svg-raw.png, id=217, 169.3527pt x 173.448pt>
 File: ./svg-inkscape/naive_rounding_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/naive_rounding_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/naive_rounding_svg-raw.png  used on inp
-ut line 59.
+ut line 79.
 (pdftex.def)             Requested size: 169.35228pt x 173.44757pt.
 
-Overfull \hbox (10.01929pt too wide) in paragraph at lines 59--59
+Overfull \hbox (10.01929pt too wide) in paragraph at lines 79--79
  [] 
  []
 
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 59.
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <12> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 59.
 
-Overfull \vbox (8.52287pt too high) detected at line 59
+Overfull \vbox (8.52287pt too high) detected at line 79
  []
 
-[3
+[4
 
  <./svg-inkscape/naive_rounding_svg-raw.png>]
 File: ./svg-inkscape/naive_rounding_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/naive_rounding_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/naive_rounding_svg-raw.png  used on inp
-ut line 59.
+ut line 79.
 (pdftex.def)             Requested size: 169.35228pt x 173.44757pt.
 
-Overfull \hbox (10.01929pt too wide) in paragraph at lines 59--59
+Overfull \hbox (10.01929pt too wide) in paragraph at lines 79--79
  [] 
  []
 
 
-Overfull \vbox (8.52287pt too high) detected at line 59
- []
-
-[4
-
-]
-File: ./svg-inkscape/naive_rounding_svg-raw.png Graphic file (type png)
-<use ./svg-inkscape/naive_rounding_svg-raw.png>
-Package pdftex.def Info: ./svg-inkscape/naive_rounding_svg-raw.png  used on inp
-ut line 59.
-(pdftex.def)             Requested size: 169.35228pt x 173.44757pt.
-
-Overfull \hbox (10.01929pt too wide) in paragraph at lines 59--59
- [] 
- []
-
-
-Overfull \vbox (8.52287pt too high) detected at line 59
+Overfull \vbox (8.52287pt too high) detected at line 79
  []
 
 [5
@@ -1825,112 +1840,127 @@ Overfull \vbox (8.52287pt too high) detected at line 59
 File: ./svg-inkscape/naive_rounding_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/naive_rounding_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/naive_rounding_svg-raw.png  used on inp
-ut line 59.
+ut line 79.
 (pdftex.def)             Requested size: 169.35228pt x 173.44757pt.
 
-Overfull \hbox (10.01929pt too wide) in paragraph at lines 59--59
+Overfull \hbox (10.01929pt too wide) in paragraph at lines 79--79
  [] 
  []
 
 
-Overfull \vbox (8.52287pt too high) detected at line 59
+Overfull \vbox (8.52287pt too high) detected at line 79
  []
 
 [6
+
+]
+File: ./svg-inkscape/naive_rounding_svg-raw.png Graphic file (type png)
+<use ./svg-inkscape/naive_rounding_svg-raw.png>
+Package pdftex.def Info: ./svg-inkscape/naive_rounding_svg-raw.png  used on inp
+ut line 79.
+(pdftex.def)             Requested size: 169.35228pt x 173.44757pt.
+
+Overfull \hbox (10.01929pt too wide) in paragraph at lines 79--79
+ [] 
+ []
+
+
+Overfull \vbox (8.52287pt too high) detected at line 79
+ []
+
+[7
 
 ])
 \openout2 = `sections/CuttingPlanes.aux'.
 
  (sections/CuttingPlanes.tex
-<./svg-inkscape/cp_idea_0_svg-raw.png, id=325, 169.3527pt x 139.4811pt>
+<./svg-inkscape/cp_idea_0_svg-raw.png, id=367, 169.3527pt x 139.4811pt>
 File: ./svg-inkscape/cp_idea_0_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/cp_idea_0_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/cp_idea_0_svg-raw.png  used on input li
 ne 42.
 (pdftex.def)             Requested size: 169.35228pt x 139.48074pt.
- [7
+ [8
 
 
 
 
  <./svg-inkscape/cp_idea_0_svg-raw.png>]
-<./svg-inkscape/cp_idea_1_svg-raw.png, id=365, 169.3527pt x 142.6128pt>
+<./svg-inkscape/cp_idea_1_svg-raw.png, id=406, 169.3527pt x 142.6128pt>
 File: ./svg-inkscape/cp_idea_1_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/cp_idea_1_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/cp_idea_1_svg-raw.png  used on input li
 ne 42.
 (pdftex.def)             Requested size: 169.35228pt x 142.61243pt.
 
-[8
+[9
 
  <./svg-inkscape/cp_idea_1_svg-raw.png>]
-<./svg-inkscape/cp_idea_2_svg-raw.png, id=404, 169.3527pt x 139.4811pt>
+<./svg-inkscape/cp_idea_2_svg-raw.png, id=445, 169.3527pt x 139.4811pt>
 File: ./svg-inkscape/cp_idea_2_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/cp_idea_2_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/cp_idea_2_svg-raw.png  used on input li
 ne 42.
 (pdftex.def)             Requested size: 169.35228pt x 139.48074pt.
- [9
+ [10
 
  <./svg-inkscape/cp_idea_2_svg-raw.png>]
-<./svg-inkscape/cp_idea_3_svg-raw.png, id=443, 169.3527pt x 139.4811pt>
+<./svg-inkscape/cp_idea_3_svg-raw.png, id=484, 169.3527pt x 139.4811pt>
 File: ./svg-inkscape/cp_idea_3_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/cp_idea_3_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/cp_idea_3_svg-raw.png  used on input li
 ne 42.
 (pdftex.def)             Requested size: 169.35228pt x 139.48074pt.
- [10
+ [11
 
  <./svg-inkscape/cp_idea_3_svg-raw.png>]
-<./svg-inkscape/cp_idea_4_svg-raw.png, id=482, 169.3527pt x 139.4811pt>
+<./svg-inkscape/cp_idea_4_svg-raw.png, id=523, 169.3527pt x 139.4811pt>
 File: ./svg-inkscape/cp_idea_4_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/cp_idea_4_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/cp_idea_4_svg-raw.png  used on input li
 ne 42.
 (pdftex.def)             Requested size: 169.35228pt x 139.48074pt.
- [11
+ [12
 
  <./svg-inkscape/cp_idea_4_svg-raw.png>]
-<./svg-inkscape/cp_idea_5_svg-raw.png, id=521, 169.3527pt x 139.4811pt>
+<./svg-inkscape/cp_idea_5_svg-raw.png, id=562, 169.3527pt x 139.4811pt>
 File: ./svg-inkscape/cp_idea_5_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/cp_idea_5_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/cp_idea_5_svg-raw.png  used on input li
 ne 42.
 (pdftex.def)             Requested size: 169.35228pt x 139.48074pt.
- [12
+ [13
 
- <./svg-inkscape/cp_idea_5_svg-raw.png>] [13
-
-] [14
+ <./svg-inkscape/cp_idea_5_svg-raw.png>] [14
 
 ] [15
 
-]
-[16
+] [16
 
-] [17
+]
+[17
 
 ] [18
 
 ] [19
 
+] [20
+
 ]
-<./svg-inkscape/convex_hull_svg-raw.png, id=819, 171.5208pt x 175.1343pt>
+<./svg-inkscape/convex_hull_svg-raw.png, id=859, 171.5208pt x 175.1343pt>
 File: ./svg-inkscape/convex_hull_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/convex_hull_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/convex_hull_svg-raw.png  used on input 
 line 95.
 (pdftex.def)             Requested size: 171.52037pt x 175.13387pt.
- [20
+ [21
 
- <./svg-inkscape/convex_hull_svg-raw.png>] [21
+ <./svg-inkscape/convex_hull_svg-raw.png>] [22
 
-] [22
+] [23
 
 ]
-[23
-
-] [24
+[24
 
 ] [25
 
@@ -1942,13 +1972,25 @@ line 95.
 
 ] [29
 
-] [30
+]
+<imgs/chvatalgomory.png, id=1194, 337.26pt x 408.02437pt>
+File: imgs/chvatalgomory.png Graphic file (type png)
+<use imgs/chvatalgomory.png>
+Package pdftex.def Info: imgs/chvatalgomory.png  used on input line 162.
+(pdftex.def)             Requested size: 143.90225pt x 174.09679pt.
+ [30
 
-] [31
+ <./imgs/chvatalgomory.png>]
+File: imgs/chvatalgomory.png Graphic file (type png)
+<use imgs/chvatalgomory.png>
+Package pdftex.def Info: imgs/chvatalgomory.png  used on input line 162.
+(pdftex.def)             Requested size: 143.90225pt x 174.09679pt.
+ [31
 
 ] [32
 
-] [33
+]
+[33
 
 ] [34
 
@@ -1958,8 +2000,7 @@ line 95.
 
 ] [37
 
-]
-[38
+] [38
 
 ] [39
 
@@ -1971,28 +2012,35 @@ line 95.
 
 ] [43
 
-])
-\openout2 = `sections/BranchBound.aux'.
-
- (sections/BranchBound.tex [44
-
-
-
+] [44
 
 ] [45
 
 ] [46
 
 ])
+\openout2 = `sections/BranchBound.aux'.
+
+
+(sections/BranchBound.tex [47
+
+
+
+
+] [48
+
+] [49
+
+])
 \openout2 = `sections/BranchCut.aux'.
 
-
-(sections/BranchCut.tex [47
-
+ (sections/BranchCut.tex [50
 
 
 
-]) [48
+
+])
+[51
 
 
 
@@ -2000,7 +2048,7 @@ line 95.
 
 LaTeX Warning: Empty bibliography on input line 47.
 
-[49
+[52
 
 ]
 \tf@nav=\write7
@@ -2021,11 +2069,11 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 41283 strings out of 478338
- 858446 string characters out of 2836699
- 1575810 words of memory out of 3000000
- 58821 multiletter control sequences out of 15000+600000
- 519115 words of font info for 65 fonts, out of 8000000 for 9000
+ 41378 strings out of 478338
+ 860497 string characters out of 2836699
+ 1578374 words of memory out of 3000000
+ 58893 multiletter control sequences out of 15000+600000
+ 519805 words of font info for 67 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  133i,19n,125p,679b,1732s stack positions out of 10000i,1000n,20000p,200000b,80000s
 {C:/Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.en
@@ -2048,10 +2096,11 @@ Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso8.pfb><C:/
 Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/
 Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/U
 sers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/ms
-bm10.pfb>
-Output written on main.pdf (49 pages, 844796 bytes).
+bm10.pfb><C:/Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/urw/zapfding
+/uzdr.pfb>
+Output written on main.pdf (52 pages, 907249 bytes).
 PDF statistics:
- 2019 PDF objects out of 2073 (max. 8388607)
- 104 named destinations out of 1000 (max. 500000)
- 123 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2143 PDF objects out of 2487 (max. 8388607)
+ 110 named destinations out of 1000 (max. 500000)
+ 138 words of extra memory for PDF output out of 10000 (max. 10000000)
 
