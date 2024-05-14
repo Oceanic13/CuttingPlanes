@@ -1,7 +1,7 @@
 \section{Cutting Planes}
 
 \begin{frame}{Cutting Planes}
-Solve the problem relaxation. If integer constraints are violated, add additional inequalities to the problem.
+Solve the problem relaxation. If integer constraints are violated, add additional inequalities to the problem that cut off the relaxed solution.
 
 \only<1>{
 \centering
@@ -83,7 +83,8 @@ Solve the problem relaxation. If integer constraints are violated, add additiona
 \column{0.5\textwidth}
 \begin{itemize}
 \item The relaxed solution $\hat{x}$ in $\text{conv}(F)$ also solves the MILP.
-\item But computing the convex hull is infeasible (exponential). %TODO find reference
+\item But computing the convex hull is infeasible. %TODO find reference
+\item Our goal is instead to approximate the convex hull in a neighborhood of $x^*$.
 \end{itemize}
 
 \column{0.5\textwidth}
@@ -244,7 +245,7 @@ Simplex finds $\hat{x} \in P \times \mathbb{R}_{\geq 0}^{N-n}$ and creates the o
 \begin{frame}{Gomory Mixed Integer Cut}
 
 \only<1>{
-Let $N_1= NB \cap \{1,...,n_1\}, N_2 = NB \cap \{n_1+1,...,x_N\}$. Consider the $i-$th row in the optimal simplex tableau
+Let $N_1= NB \cap \{1,...,n_1\}, N_2 = NB \cap \{n_1+1,...,N\}$. Consider the $i-$th row in the optimal simplex tableau
 \begin{equation*}
     x_{B_i} + \sum\limits_{\substack{j \in N_1}} \bar{a}_{ij} x_j + \sum\limits_{\substack{j \in N_2}} \bar{a}_{ij} x_j = \bar{b_i}
 \end{equation*}
@@ -304,7 +305,11 @@ C++ simplex solver and mixed integer Gomory cut. Python visualiser for 2D proble
 \item Heuristic to evaluate the efficiency of a cutting plane (e.g. euclidean distance to $\hat{x}$).
 \item Add multiple cutting planes in each iteration.
 \end{itemize}
-\item Other cutting plane strategies exist.
+\item Other cutting plane strategies exist. % Apply cut to original inequalities
 %TODO Different Cutting Planes methods have been proposed/also depending on the specific problem
 \end{itemize}
+\end{frame}
+
+\begin{frame}{Complexity}
+%TODO
 \end{frame}
