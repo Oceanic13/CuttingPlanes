@@ -1,14 +1,7 @@
 \section{Branch \& Bound}
 
-\begin{frame}{Branch \& Bound}
-\begin{itemize}
-\item Like Cutting Planes, we solve the problem relaxation and add constraints until an optimal solution has been found.
-\item Divide \& Conquer approach
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Branching}
-Cut off the non-integer neighborhood of $\hat{x}_i \notin \mathbb{Z}$ and obtain two new relaxation problems, one with $x_i \leq \floor{\hat{x}_i}$ and one with $x_i \geq \ceil{\hat{x}_i}$. The resulting data structure is a binary tree of problems.
+\begin{frame}{The Branch in Branch \& Bound}
+Divide \& Conquer: Cut off the non-integer neighborhood of $\hat{x}_i \notin \mathbb{Z}$ and obtain two new relaxation problems, one with $x_i \leq \floor{\hat{x}_i}$ and one with $x_i \geq \ceil{\hat{x}_i}$. The resulting data structure is a binary tree of problems.
 
 \begin{figure}[b]
 \centering
@@ -17,7 +10,7 @@ Cut off the non-integer neighborhood of $\hat{x}_i \notin \mathbb{Z}$ and obtain
 
 \end{frame}
 
-\begin{frame}{Bounding}
+\begin{frame}{The Bound in Branch \& Bound}
 \begin{itemize}
 \item Initially, we only know that $-\infty < c^\top x^* < \infty$ (not very helpful).
 \item Improve bounds:
@@ -87,8 +80,8 @@ Cut off the non-integer neighborhood of $\hat{x}_i \notin \mathbb{Z}$ and obtain
 
 \begin{frame}{Cutting Planes + Branch \& Bound = Branch \& Cut }
 \begin{itemize}
-\item Cutting Planes or Branch \& Bound on their own are inefficient in practice.
+\item Cutting Planes or Branch \& Bound on their own are often inefficient in practice.
 \item Combine the two to Branch \& Cut. This works like Branch \& Bound but with additionally adding cuts before branching. 
-\item Used most often in practice. %TODO reference, examples
+\item Often used in practice.
 \end{itemize}
 \end{frame}

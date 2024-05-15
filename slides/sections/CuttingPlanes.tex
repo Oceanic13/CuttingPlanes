@@ -60,11 +60,14 @@ Solve the problem relaxation. If integer constraints are violated, add additiona
      \State LP $\gets$ Relaxation of the MILP
      \Repeat
     	\State $\hat{x}$ $\gets$ Optimal solution of the LP 
+    	\State If the LP is infeasible, return (null, INFEASIBLE)
+    	\State If the LP is unbounded and no integer constraints are violated,
+    	\State return ($\hat{x}$, UNBOUNDED)
     	\If{$(\hat{x}_1,...,\hat{x}_{n_1}) \notin \mathbb{Z}^{n_1}$}
     		\State Add a cut w.r.t. $\hat{x}$ to the LP
     	\EndIf 
     \Until{$(\hat{x}_1,...,\hat{x}_{n_1}) \in \mathbb{Z}^{n_1}$}
-    \State \textbf{return} $\hat{x}$
+    \State \textbf{return} ($\hat{x}$, OPTIMAL)
    \end{algorithmic}
 \end{frame}
 
@@ -94,33 +97,33 @@ Solve the problem relaxation. If integer constraints are violated, add additiona
 \end{columns}
 \end{frame}
 
-\begin{frame}{Integer Part and Fractional Part}
-\begin{columns}
-
-\column{0.5\textwidth}
-Any real number $a \in \mathbb{R}$ can be expressed as
-\begin{equation*}
-a = \floor{a} + f_a
-\end{equation*}
-for some unique $\floor{a} \in \mathbb{Z}$ and $f_a \in [0,1)$.
-\begin{itemize}
-\item $\floor{a} = \max\{z \in \mathbb{Z} \:\vert\: z \leq a\}$ is the\newline
-\emph{integer part} of $a$.
-\item $f_a = a - \floor{a}$ is the\newline
-\emph{fractional part} of $a$.
-\end{itemize}
-
-
-\column{0.5\textwidth}
-\begin{itemize}[<+(1)->]
-	\item $f_a = 0 \Leftrightarrow a=\floor{a} \Leftrightarrow a \in \mathbb{Z}$
-	\item $\floor{-a} = -\ceil{a}$ where $\ceil{a} = \min\{z \in \mathbb{Z} \:\vert\: z \geq a\}$
-	\item $a \in \mathbb{Z}$ and $a \leq b \Rightarrow a \leq \floor{b}$
-	\item $a \in \mathbb{Z}$ and $a \geq b \Rightarrow a \geq \ceil{b}$
-	\end{itemize}
-
-\end{columns}
-\end{frame}
+%\begin{frame}{Integer Part and Fractional Part}
+%\begin{columns}
+%
+%\column{0.5\textwidth}
+%Any real number $a \in \mathbb{R}$ can be expressed as
+%\begin{equation*}
+%a = \floor{a} + f_a
+%\end{equation*}
+%for some unique $\floor{a} \in \mathbb{Z}$ and $f_a \in [0,1)$.
+%\begin{itemize}
+%\item $\floor{a} = \max\{z \in \mathbb{Z} \:\vert\: z \leq a\}$ is the\newline
+%\emph{integer part} of $a$.
+%\item $f_a = a - \floor{a}$ is the\newline
+%\emph{fractional part} of $a$.
+%\end{itemize}
+%
+%
+%\column{0.5\textwidth}
+%\begin{itemize}[<+(1)->]
+%	\item $f_a = 0 \Leftrightarrow a=\floor{a} \Leftrightarrow a \in \mathbb{Z}$
+%	\item $\floor{-a} = -\ceil{a}$ where $\ceil{a} = \min\{z \in \mathbb{Z} \:\vert\: z \geq a\}$
+%	\item $a \in \mathbb{Z}$ and $a \leq b \Rightarrow a \leq \floor{b}$
+%	\item $a \in \mathbb{Z}$ and $a \geq b \Rightarrow a \geq \ceil{b}$
+%	\end{itemize}
+%
+%\end{columns}
+%\end{frame}
 
 \begin{frame}{Chvátal–Gomory Inequality for Integer Linear Programs}
 Let $\sum_{j=1}^n a_{ij} x_j \leq b_i$ for an Integer Linear Program ($x \in \mathbb{Z}_{\geq 0}^n$).
@@ -138,7 +141,13 @@ Then the following inequalities are valid for any $\alpha \geq 0$:
 \begin{frame}{ILP vs. MILP}
 \begin{columns}
 \column{0.4\textwidth}
-\includegraphics[height=0.8\textheight]{imgs/chvatalgomory.png}
+
+\only<1>{
+\includesvg[height=0.8\textheight]{imgs/chvatalgomory_ilp.svg}
+}
+\only<2>{
+\includesvg[height=0.8\textheight]{imgs/chvatalgomory_milp.svg}
+}
 
 \column{0.6\textwidth}
 
@@ -154,14 +163,14 @@ Then the following inequalities are valid for any $\alpha \geq 0$:
 \begin{itemize}
 \item  $\min_{x,y} -y $\\$\text{s.t. }\frac{3}{2}x + y \leq \frac{5}{4}, (x,y) \in \mathbb{Z}_{\geq 0} \times \mathbb{R}_{\geq 0}$
 \item $(x^*,y^*)=(0,\frac{5}{4})$
-\item $\floor{\frac{3}{2}} \cdot 0 + \floor{1} \cdot \frac{5}{4} = \frac{5}{4} > \floor{\frac{5}{4}}$ \xmark
+\item $\floor{\frac{3}{2}} \cdot 0 + \floor{1} \cdot \frac{5}{4} = \frac{5}{4} \not\leq \floor{\frac{5}{4}}$ \xmark
 \end{itemize}
 }
 
 \end{columns}
 \end{frame}
 
-\begin{frame}{Basic Mixed Integer Rounding Inequalities I}
+\begin{frame}[t]{Basic Mixed Integer Rounding Inequalities I}
 \only<1>{
 Let $x \in \mathbb{Z}_{\geq 0}, y \in \mathbb{R}_{\geq 0}, b \in \mathbb{R}_{>0} \setminus \mathbb{Z}$. Then
 \begin{equation}
@@ -174,23 +183,29 @@ x \geq \ceil{b} \text{ is a valid inequality for } \{-x+y \leq -b\}
 }
 
 \only<2>{
+\scriptsize{
+Let $x \in \mathbb{Z}_{\geq 0}, y \in \mathbb{R}_{\geq 0}, b \in \mathbb{R}_{>0} \setminus \mathbb{Z}$. Then $x \leq \floor{b} \text{ is a valid inequality for } \{x+y \leq b\}$
+}
 %TODO :  Illustration and math proof
 }
 \end{frame}
 
-\begin{frame}{Basic Mixed Integer Rounding Inequalities II}
+\begin{frame}[t]{Basic Mixed Integer Rounding Inequalities II}
 \only<1>{
 Let $x \in \mathbb{Z}_{\geq 0}, y \in \mathbb{R}_{\geq 0}, b \in \mathbb{R}_{>0} \setminus \mathbb{Z}$. Then
 \begin{equation}
-x - \frac{1}{f_b-1} \leq \floor{b} \text{ is a valid inequality for } \{x-y \leq b\}
+x - \frac{1}{1-f_b}y \leq \floor{b} \text{ is a valid inequality for } \{x-y \leq b\}
 \end{equation}
 and
 \begin{equation}
-x + \frac{1}{f_b} \geq \ceil{b} \text{ is a valid inequality for } \{-x-y \leq -b\}
+x + \frac{1}{f_b}y \geq \ceil{b} \text{ is a valid inequality for } \{-x-y \leq -b\}
 \end{equation}
 }
 
 \only<2>{
+\scriptsize{
+Let $x \in \mathbb{Z}_{\geq 0}, y \in \mathbb{R}_{\geq 0}, b \in \mathbb{R}_{>0} \setminus \mathbb{Z}$. Then $x - \frac{1}{1-f_b}y \leq \floor{b} \text{ is a valid inequality for } \{x-y \leq b\}$
+}
 %TODO :  Illustration and math proof
 }
 
@@ -199,7 +214,7 @@ x + \frac{1}{f_b} \geq \ceil{b} \text{ is a valid inequality for } \{-x-y \leq -
 \begin{frame}{General Mixed Integer Rounding Inequality}
 
 \only<1>{
-Let $F_{MIR} = \{(x,y) \in \mathbb{Z}_{\geq 0}^2 \times \mathbb{R}_{\geq 0} \:\vert\: a_1x_1+a_2x2-y\leq b \}$ where $a \in \mathbb{R}^2, b \in \mathbb{R} \setminus \mathbb{Z}$ and assume that $f_1 \leq f_b \leq f_2$. Then the inequality
+Let $F_{MIR} = \{(x,y) \in \mathbb{Z}_{\geq 0}^2 \times \mathbb{R}_{\geq 0} \:\vert\: a_1x_1+a_2x_2-y\leq b \}$ where $a \in \mathbb{R}^2, b \in \mathbb{R} \setminus \mathbb{Z}$ and assume that $f_1 \leq f_b < f_2$. Then the inequality
 
 \begin{equation*}
 \floor{a_1}x_1 + \left( \floor{a_2}+ \frac{f_2 - f_b}{1 - f_b} \right) x_2 - \frac{1}{1-f_b}y \leq \floor{b}
@@ -207,9 +222,9 @@ Let $F_{MIR} = \{(x,y) \in \mathbb{Z}_{\geq 0}^2 \times \mathbb{R}_{\geq 0} \:\v
 is valid for $F_{MIR}$.
 }
 
-\only<2>{
-%TODO Math Proof
-}
+%\only<2>{
+%%TODO Math Proof
+%}
 
 \end{frame}
 
@@ -260,24 +275,24 @@ x_{B_i} + \sum\limits_{\substack{j \in N_1 \\ f_{ij} \leq f_i}} \floor{\bar{a}_{
 is a valid inequality for $F$ that is not satisfied by $\hat{x}$.
 }
 
-\only<2>{
-%TODO Proof
-}
+%\only<2>{
+%%TODO Proof
+%}
 
 \end{frame}
 
-\begin{frame}{Cutting Planes Algorithm}
-\begin{itemize}
-\item Let a MILP be given with feasible region $F = \{x \in \mathbb{Z}_{\geq 0}^{n_1} \times \mathbb{R}_{\geq 0}^{n-n_1} \:\vert\: Ax \leq b \}$ for some $A \in \mathbb{R}^{m \times n}, b \in \mathbb{R}^m$.
-\item The relaxation is the LP obtained by removing the integer constraints, so its feasible region is the polyhedron $P = \{x \in \mathbb{R}_{\geq 0}^{n} \:\vert\: Ax \leq b \}$.
-\item Repeat the following two steps until $\hat{x} \in F$:
-\begin{enumerate}
-\item Solve the LP using the Simplex Algorithm and obtain $\hat{x} \in P$
-\item If the problem is infeasible ($P = \emptyset$), return INEASIBLE. If the problem is unbounded and no integer constraints are violated, return UNBOUNDED
-\item If $\hat{x} \notin F$, pick $i \in \{1,...,n_1\}$ s.t. $\hat{x}_i \notin \mathbb{Z}$ and add the corresponding GMI-Cut to the LP.
-\end{enumerate}
-\end{itemize}
-\end{frame}
+%\begin{frame}{Cutting Planes Algorithm}
+%\begin{itemize}
+%\item Let a MILP be given with feasible region $F = \{x \in \mathbb{Z}_{\geq 0}^{n_1} \times \mathbb{R}_{\geq 0}^{n-n_1} \:\vert\: Ax \leq b \}$ for some $A \in \mathbb{R}^{m \times n}, b \in \mathbb{R}^m$.
+%\item The relaxation is the LP obtained by removing the integer constraints, so its feasible region is the polyhedron $P = \{x \in \mathbb{R}_{\geq 0}^{n} \:\vert\: Ax \leq b \}$.
+%\item Repeat the following two steps until $\hat{x} \in F$:
+%\begin{enumerate}
+%\item Solve the LP using the Simplex Algorithm and obtain $\hat{x} \in P$
+%\item If the problem is infeasible ($P = \emptyset$), return INEASIBLE. If the problem is unbounded and no integer constraints are violated, return UNBOUNDED
+%\item If $\hat{x} \notin F$, pick $i \in \{1,...,n_1\}$ s.t. $\hat{x}_i \notin \mathbb{Z}$ and add the corresponding GMI-Cut to the LP.
+%\end{enumerate}
+%\end{itemize}
+%\end{frame}
 
 \begin{frame}{Project Demonstration}
 \begin{itemize}
@@ -305,9 +320,6 @@ is a valid inequality for $F$ that is not satisfied by $\hat{x}$.
 \item Evaluate the efficiency of a cutting plane based on some heuristics (for example euclidean distance to $\hat{x}$).
 \item Add multiple cutting planes in each iteration.
 \end{itemize}
-\item Other cutting plane strategies exist:
-\begin{itemize}
-\item Knapsack Covers or GUB (generalized upper bound) covers for binary programs.
-\end{itemize}
+\item For binary programs: Knapsack Covers or GUB (generalized upper bound) covers.
 \end{itemize}
 \end{frame}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.10.15)  15 MAY 2024 16:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.10.15)  15 MAY 2024 22:53
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1725,7 +1725,7 @@ Package biblatex Info: Reference segment=0 on input line 11.
 
 
 ]
-<./svg-inkscape/milp_svg-raw.png, id=174, 162.6075pt x 141.6492pt>
+<./svg-inkscape/milp_svg-raw.png, id=162, 162.6075pt x 141.6492pt>
 File: ./svg-inkscape/milp_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/milp_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/milp_svg-raw.png  used on input line 44
@@ -1784,7 +1784,7 @@ Overfull \hbox (5.24971pt too wide) detected at line 44
 []
  []
 
-<./svg-inkscape/lp_svg-raw.png, id=176, 166.221pt x 165.0165pt>
+<./svg-inkscape/lp_svg-raw.png, id=164, 166.221pt x 165.0165pt>
 File: ./svg-inkscape/lp_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/lp_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/lp_svg-raw.png  used on input line 44.
@@ -1803,7 +1803,7 @@ LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <12> not available
  [4
 
 ]
-<./svg-inkscape/naive_rounding_svg-raw.png, id=266, 169.3527pt x 173.448pt>
+<./svg-inkscape/naive_rounding_svg-raw.png, id=248, 169.3527pt x 173.448pt>
 File: ./svg-inkscape/naive_rounding_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/naive_rounding_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/naive_rounding_svg-raw.png  used on inp
@@ -1858,7 +1858,7 @@ Overfull \vbox (8.52287pt too high) detected at line 95
 \openout2 = `sections/CuttingPlanes.aux'.
 
  (sections/CuttingPlanes.tex
-<./svg-inkscape/cp_idea_0_svg-raw.png, id=385, 169.3527pt x 139.4811pt>
+<./svg-inkscape/cp_idea_0_svg-raw.png, id=358, 169.3527pt x 139.4811pt>
 File: ./svg-inkscape/cp_idea_0_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/cp_idea_0_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/cp_idea_0_svg-raw.png  used on input li
@@ -1870,7 +1870,7 @@ ne 42.
 
 
  <./svg-inkscape/cp_idea_0_svg-raw.png>]
-<./svg-inkscape/cp_idea_1_svg-raw.png, id=426, 169.3527pt x 142.6128pt>
+<./svg-inkscape/cp_idea_1_svg-raw.png, id=396, 169.3527pt x 142.6128pt>
 File: ./svg-inkscape/cp_idea_1_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/cp_idea_1_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/cp_idea_1_svg-raw.png  used on input li
@@ -1880,7 +1880,7 @@ ne 42.
 [9
 
  <./svg-inkscape/cp_idea_1_svg-raw.png>]
-<./svg-inkscape/cp_idea_2_svg-raw.png, id=467, 169.3527pt x 139.4811pt>
+<./svg-inkscape/cp_idea_2_svg-raw.png, id=434, 169.3527pt x 139.4811pt>
 File: ./svg-inkscape/cp_idea_2_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/cp_idea_2_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/cp_idea_2_svg-raw.png  used on input li
@@ -1889,7 +1889,7 @@ ne 42.
  [10
 
  <./svg-inkscape/cp_idea_2_svg-raw.png>]
-<./svg-inkscape/cp_idea_3_svg-raw.png, id=508, 169.3527pt x 139.4811pt>
+<./svg-inkscape/cp_idea_3_svg-raw.png, id=472, 169.3527pt x 139.4811pt>
 File: ./svg-inkscape/cp_idea_3_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/cp_idea_3_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/cp_idea_3_svg-raw.png  used on input li
@@ -1898,7 +1898,7 @@ ne 42.
  [11
 
  <./svg-inkscape/cp_idea_3_svg-raw.png>]
-<./svg-inkscape/cp_idea_4_svg-raw.png, id=549, 169.3527pt x 139.4811pt>
+<./svg-inkscape/cp_idea_4_svg-raw.png, id=510, 169.3527pt x 139.4811pt>
 File: ./svg-inkscape/cp_idea_4_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/cp_idea_4_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/cp_idea_4_svg-raw.png  used on input li
@@ -1907,7 +1907,7 @@ ne 42.
  [12
 
  <./svg-inkscape/cp_idea_4_svg-raw.png>]
-<./svg-inkscape/cp_idea_5_svg-raw.png, id=590, 169.3527pt x 139.4811pt>
+<./svg-inkscape/cp_idea_5_svg-raw.png, id=548, 169.3527pt x 139.4811pt>
 File: ./svg-inkscape/cp_idea_5_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/cp_idea_5_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/cp_idea_5_svg-raw.png  used on input li
@@ -1931,11 +1931,11 @@ ne 42.
 ] [20
 
 ]
-<./svg-inkscape/convex_hull_svg-raw.png, id=903, 171.5208pt x 175.1343pt>
+<./svg-inkscape/convex_hull_svg-raw.png, id=837, 171.5208pt x 175.1343pt>
 File: ./svg-inkscape/convex_hull_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/convex_hull_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/convex_hull_svg-raw.png  used on input 
-line 95.
+line 98.
 (pdftex.def)             Requested size: 171.52037pt x 175.13387pt.
  [21
 
@@ -1946,159 +1946,195 @@ line 95.
 ]
 [24
 
-] [25
+]
+<./svg-inkscape/chvatalgomory_ilp_svg-raw.png, id=983, 337.7418pt x 408.3255pt>
 
-] [26
+File: ./svg-inkscape/chvatalgomory_ilp_svg-raw.png Graphic file (type png)
+<use ./svg-inkscape/chvatalgomory_ilp_svg-raw.png>
+Package pdftex.def Info: ./svg-inkscape/chvatalgomory_ilp_svg-raw.png  used on 
+input line 171.
+(pdftex.def)             Requested size: 337.74098pt x 408.3245pt.
+ [25
 
-] [27
+ <./svg-inkscape/chvatalgomory_ilp_svg-raw.png>]
+<./svg-inkscape/chvatalgomory_milp_svg-raw.png, id=1024, 337.7418pt x 408.3255p
+t>
+File: ./svg-inkscape/chvatalgomory_milp_svg-raw.png Graphic file (type png)
+<use ./svg-inkscape/chvatalgomory_milp_svg-raw.png>
+Package pdftex.def Info: ./svg-inkscape/chvatalgomory_milp_svg-raw.png  used on
+ input line 171.
+(pdftex.def)             Requested size: 337.74098pt x 408.3245pt.
+ [26
 
-] [28
+ <./svg-inkscape/chvatalgomory_milp_svg-raw.png>] [27
+
+]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 191.
+LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <5> not available
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 191.
+ [28
 
 ] [29
 
-]
-<imgs/chvatalgomory.png, id=1256, 337.26pt x 408.02437pt>
-File: imgs/chvatalgomory.png Graphic file (type png)
-<use imgs/chvatalgomory.png>
-Package pdftex.def Info: imgs/chvatalgomory.png  used on input line 162.
-(pdftex.def)             Requested size: 143.90225pt x 174.09679pt.
- [30
+] [30
 
- <./imgs/chvatalgomory.png>]
-File: imgs/chvatalgomory.png Graphic file (type png)
-<use imgs/chvatalgomory.png>
-Package pdftex.def Info: imgs/chvatalgomory.png  used on input line 162.
-(pdftex.def)             Requested size: 143.90225pt x 174.09679pt.
- [31
+] [31
 
 ] [32
 
-]
-[33
+] [33
 
 ] [34
 
 ] [35
 
-] [36
+]
+[36
 
 ] [37
 
 ] [38
 
-] [39
-
-] [40
-
-] [41
-
-] [42
-
-] [43
-
-] [44
-
-] [45
-
-] [46
-
-] [47
-
 ])
 \openout2 = `sections/BranchBound.aux'.
 
-
-(sections/BranchBound.tex [48
-
-
-
-
-]
-<./svg-inkscape/branch_svg-raw.png, id=1994, 356.0502pt x 130.3269pt>
+ (sections/BranchBound.tex
+<./svg-inkscape/branch_svg-raw.png, id=1490, 356.0502pt x 130.3269pt>
 File: ./svg-inkscape/branch_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/branch_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/branch_svg-raw.png  used on input line 
-18.
+11.
 (pdftex.def)             Requested size: 356.04932pt x 130.32657pt.
- [49
+ [39
 
- <./svg-inkscape/branch_svg-raw.png>]
-[50
+
+
+
+ <./svg-inkscape/branch_svg-raw.png>] [40
 
 ]
-<./svg-inkscape/bb_idea_0_svg-raw.png, id=2073, 181.1568pt x 157.7895pt>
+Package svg Info: Calling Inkscape on input line 63.
+runsystem(inkscape "imgs/bb_idea_0.svg" -D --export-dpi=300 --export-filename="
+bb_idea_0_svg-raw.png")...executed.
+
+runsystem(if not exist "./svg-inkscape/" mkdir "./svg-inkscape/")...executed.
+
+runsystem(move "bb_idea_0_svg-raw.png" "./svg-inkscape/bb_idea_0_svg-raw.png").
+..executed.
+
+<./svg-inkscape/bb_idea_0_svg-raw.png, id=1562, 181.1568pt x 157.3077pt>
 File: ./svg-inkscape/bb_idea_0_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/bb_idea_0_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/bb_idea_0_svg-raw.png  used on input li
-ne 70.
-(pdftex.def)             Requested size: 181.15634pt x 157.78911pt.
- [51
+ne 63.
+(pdftex.def)             Requested size: 181.15634pt x 157.3073pt.
+ [41
 
  <./svg-inkscape/bb_idea_0_svg-raw.png>]
-<./svg-inkscape/bb_idea_1_svg-raw.png, id=2114, 323.0469pt x 394.1124pt>
+Package svg Info: Calling Inkscape on input line 63.
+runsystem(inkscape "imgs/bb_idea_1.svg" -D --export-dpi=300 --export-filename="
+bb_idea_1_svg-raw.png")...executed.
+
+runsystem(if not exist "./svg-inkscape/" mkdir "./svg-inkscape/")...executed.
+
+runsystem(move "bb_idea_1_svg-raw.png" "./svg-inkscape/bb_idea_1_svg-raw.png").
+..executed.
+
+<./svg-inkscape/bb_idea_1_svg-raw.png, id=1600, 323.0469pt x 393.6306pt>
 File: ./svg-inkscape/bb_idea_1_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/bb_idea_1_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/bb_idea_1_svg-raw.png  used on input li
-ne 70.
-(pdftex.def)             Requested size: 323.04611pt x 394.11142pt.
- [52
+ne 63.
+(pdftex.def)             Requested size: 323.04611pt x 393.62964pt.
+ [42
 
  <./svg-inkscape/bb_idea_1_svg-raw.png>]
-<./svg-inkscape/bb_idea_2_svg-raw.png, id=2155, 497.9403pt x 394.1124pt>
+Package svg Info: Calling Inkscape on input line 63.
+runsystem(inkscape "imgs/bb_idea_2.svg" -D --export-dpi=300 --export-filename="
+bb_idea_2_svg-raw.png")...executed.
+
+runsystem(if not exist "./svg-inkscape/" mkdir "./svg-inkscape/")...executed.
+
+runsystem(move "bb_idea_2_svg-raw.png" "./svg-inkscape/bb_idea_2_svg-raw.png").
+..executed.
+
+<./svg-inkscape/bb_idea_2_svg-raw.png, id=1638, 497.9403pt x 393.6306pt>
 File: ./svg-inkscape/bb_idea_2_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/bb_idea_2_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/bb_idea_2_svg-raw.png  used on input li
-ne 70.
-(pdftex.def)             Requested size: 497.93909pt x 394.11142pt.
- [53
+ne 63.
+(pdftex.def)             Requested size: 497.93909pt x 393.62964pt.
+ [43
 
  <./svg-inkscape/bb_idea_2_svg-raw.png>]
-<./svg-inkscape/bb_idea_3_svg-raw.png, id=2196, 497.9403pt x 654.0435pt>
+Package svg Info: Calling Inkscape on input line 63.
+runsystem(inkscape "imgs/bb_idea_3.svg" -D --export-dpi=300 --export-filename="
+bb_idea_3_svg-raw.png")...executed.
+
+runsystem(if not exist "./svg-inkscape/" mkdir "./svg-inkscape/")...executed.
+
+runsystem(move "bb_idea_3_svg-raw.png" "./svg-inkscape/bb_idea_3_svg-raw.png").
+..executed.
+
+<./svg-inkscape/bb_idea_3_svg-raw.png, id=1677, 497.9403pt x 653.5617pt>
 File: ./svg-inkscape/bb_idea_3_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/bb_idea_3_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/bb_idea_3_svg-raw.png  used on input li
-ne 70.
-(pdftex.def)             Requested size: 497.93909pt x 654.0419pt.
- [54
+ne 63.
+(pdftex.def)             Requested size: 497.93909pt x 653.5601pt.
+ [44
 
  <./svg-inkscape/bb_idea_3_svg-raw.png>]
-<./svg-inkscape/bb_idea_4_svg-raw.png, id=2237, 675.2427pt x 668.7384pt>
+Package svg Info: Calling Inkscape on input line 63.
+runsystem(inkscape "imgs/bb_idea_4.svg" -D --export-dpi=300 --export-filename="
+bb_idea_4_svg-raw.png")...executed.
+
+runsystem(if not exist "./svg-inkscape/" mkdir "./svg-inkscape/")...executed.
+
+runsystem(move "bb_idea_4_svg-raw.png" "./svg-inkscape/bb_idea_4_svg-raw.png").
+..executed.
+
+<./svg-inkscape/bb_idea_4_svg-raw.png, id=1715, 675.2427pt x 668.2566pt>
 File: ./svg-inkscape/bb_idea_4_svg-raw.png Graphic file (type png)
 <use ./svg-inkscape/bb_idea_4_svg-raw.png>
 Package pdftex.def Info: ./svg-inkscape/bb_idea_4_svg-raw.png  used on input li
-ne 70.
-(pdftex.def)             Requested size: 675.24106pt x 668.73677pt.
- [55
+ne 63.
+(pdftex.def)             Requested size: 675.24106pt x 668.25497pt.
+ [45
 
- <./svg-inkscape/bb_idea_4_svg-raw.png>] [56
-
-]
-[57
-
-]) [58
-
-
+ <./svg-inkscape/bb_idea_4_svg-raw.png>] [46
 
 ]
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 41
+[47
+
+])
+<./svg-inkscape/outrol_svg-raw.png, id=1822, 165.0165pt x 162.1257pt>
+File: ./svg-inkscape/outrol_svg-raw.png Graphic file (type png)
+<use ./svg-inkscape/outrol_svg-raw.png>
+Package pdftex.def Info: ./svg-inkscape/outrol_svg-raw.png  used on input line 
+39.
+(pdftex.def)             Requested size: 165.01607pt x 162.1253pt.
+ [48
+
+
+
+ <./svg-inkscape/outrol_svg-raw.png>]
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 43
 .
- (C:\Users\tobi-\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
+
+(C:\Users\tobi-\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 
 LaTeX Font Warning: Font shape `T1/lmss/m/sc' in size <6> not available
-(Font)              Font shape `T1/lmr/m/sc' tried instead on input line 41.
+(Font)              Font shape `T1/lmr/m/sc' tried instead on input line 43.
 
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4
-1.
+3.
 (C:\Users\tobi-\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 41.
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <5> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 41.
- [59
+) [49
 
  <C:/Users/tobi-/AppData/Local/Programs/MiKTeX/tex/latex/beamer/beamericonartic
 le.pdf>]
@@ -2120,40 +2156,42 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 41784 strings out of 478338
- 868998 string characters out of 2836699
- 1576751 words of memory out of 3000000
- 59262 multiletter control sequences out of 15000+600000
+ 41782 strings out of 478338
+ 869683 string characters out of 2836699
+ 1574753 words of memory out of 3000000
+ 59275 multiletter control sequences out of 15000+600000
  532288 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  133i,19n,125p,1007b,1732s stack positions out of 10000i,1000n,20000p,200000b,80000s
 {C:/Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}{C
 :/Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C
+:/Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}{C
 :/Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Us
-ers/tobi-/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}{C:/Us
-ers/tobi-/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}<C:/Us
+ers/tobi-/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}<C:/Us
 ers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C:/U
 sers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/U
 sers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C:/U
 sers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/U
-sers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Us
-ers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss10.pfb><C:/Us
-ers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb><C:/Us
-ers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss17.pfb><C:/Us
-ers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss8.pfb><C:/Use
-rs/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb><C:/U
-sers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso10.pfb><C:/
-Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso12.pfb><C:
-/Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso8.pfb><C:
-/Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:
-/Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/
-Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt8.pfb><C:/U
-sers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/ms
-bm10.pfb><C:/Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/urw/zapfding
-/uzdr.pfb>
-Output written on main.pdf (59 pages, 1658713 bytes).
+sers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi6.pfb><C:/Us
+ers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Use
+rs/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss10.pfb><C:/Use
+rs/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb><C:/Use
+rs/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss17.pfb><C:/Use
+rs/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss8.pfb><C:/User
+s/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb><C:/Us
+ers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso10.pfb><C:/U
+sers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso12.pfb><C:/
+Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso8.pfb><C:/
+Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/
+Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy6.pfb><C:/U
+sers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Us
+ers/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt8.pfb><C:/Use
+rs/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm
+10.pfb><C:/Users/tobi-/AppData/Local/Programs/MiKTeX/fonts/type1/urw/zapfding/u
+zdr.pfb>
+Output written on main.pdf (49 pages, 1976610 bytes).
 PDF statistics:
- 2563 PDF objects out of 2984 (max. 8388607)
- 128 named destinations out of 1000 (max. 500000)
- 168 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2031 PDF objects out of 2073 (max. 8388607)
+ 108 named destinations out of 1000 (max. 500000)
+ 178 words of extra memory for PDF output out of 10000 (max. 10000000)
 
