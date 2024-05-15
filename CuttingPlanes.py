@@ -157,6 +157,15 @@ class Plotter:
     def plot_point(self, x, y, color='r'):
         plt.plot(x, y, color+'o', markersize=10, label='(x,y)=(%g, %g)' % (x, y))
 
+    def plot_legend(self):
+        plt.title(title)
+        plt.legend(bbox_to_anchor=(1.05,1), loc="upper left")
+        plt.xlabel('x')
+        plt.ylabel('y')
+
+    def plot_grid(self, color='gray', linestyle='--', linewidth=1):
+        plt.grid(color=color, linestyle=linestyle, linewidth=linewidth)
+
 
     def plot_milp(self, milp:MILP, title:str='MILP', optimal_solution=None, cuts=(np.array([[]]),np.array([])), show_legend=True, save_file:str=''):
         A,b = (milp.A,milp.b) if cuts[1].shape[0]==0 else (np.vstack([milp.A, cuts[0]]), np.append(milp.b, cuts[1]))
@@ -183,11 +192,9 @@ class Plotter:
 
         # Labels and Stuff
         if show_legend:
-            plt.legend(bbox_to_anchor=(1.05,1), loc="upper left")
-            plt.xlabel('x')
-            plt.ylabel('y')
-        plt.title(title)
-        plt.grid(color='gray', linestyle='--', linewidth=1)
+            self.plot_legend()
+        self.plot_grid()
+
         plt.xticks(np.arange(np.floor(self.xmin), self.xmax, 1))
         plt.yticks(np.arange(np.floor(self.ymin), self.ymax, 1))
         plt.xlim((self.xmin, self.xmax))

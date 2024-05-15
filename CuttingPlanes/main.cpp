@@ -1,8 +1,7 @@
-#include "AlgLibSimplexSolver.h"
+
 #include "CuttingPlanes.h"
 #include "MixedIntegerLinearProgram.h"
 #include "ToblexSolver.h"
-#include "SoPlexSolver.h"
 
 using namespace CP;
 using MILP = MixedIntegerLinearProgram;
@@ -18,6 +17,8 @@ int main(int argc, char* argv[])
         auto milp = MILP(inFile);
 
         std::cout << milp << std::endl;
+
+        std::cout << "Cut me some slack!" << std::endl;
 
         auto cp = CuttingPlanes(milp);
         cp.solve();

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "soplex.h"
+//#include "soplex.h"
 #include <nlohmann/json.hpp>
 #include <Eigen/Dense>
 #include <Eigen/Sparse>

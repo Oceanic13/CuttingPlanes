@@ -61,6 +61,14 @@ public:
         return;
     }
 
+
+    ///
+    /// \brief generateGomoryMixedIntegerCut
+    /// \param x Current optimal solution
+    /// \param Ai lhs coefficient of cut
+    /// \param bi rhs constant of cut
+    /// \return true iff cut was successfully generated
+    ///
     bool generateGomoryMixedIntegerCut(const Vecd& x, Vecd& Ai, double& bi)
     {
         uint n = problem.dimension();
@@ -119,7 +127,7 @@ public:
                 Ai[j] = coeff;
             } else { // N2- slack var
                 Vecd varCoeffs(n); double constTerm;
-                getSlackVarCoeffs(j, varCoeffs, constTerm);
+                getSlackVarCoeffs(j, varCoeffs, constTerm); // resubstitute
                 //std::cout << "VarCoeffs for slack " << j << " are " << varCoeffs.transpose() << " + " << constTerm << std::endl;
                 Ai += coeff * varCoeffs;
                 bi -= coeff * constTerm;
