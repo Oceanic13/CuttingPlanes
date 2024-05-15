@@ -3,29 +3,92 @@
 \begin{frame}{Branch \& Bound}
 \begin{itemize}
 \item Like Cutting Planes, we solve the problem relaxation and add constraints until an optimal solution has been found.
-\item Divide \& Conquer
+\item Divide \& Conquer approach
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Branching}
-Cut off the non-integer neighborhood of $x_i^* \notin \mathbb{Z} \Rightarrow \text{ Two new relaxation problems}$
+Cut off the non-integer neighborhood of $\hat{x}_i \notin \mathbb{Z}$ and obtain two new relaxation problems, one with $x_i \leq \floor{\hat{x}_i}$ and one with $x_i \geq \ceil{\hat{x}_i}$. The resulting data structure is a binary tree of problems.
+
+\begin{figure}[b]
+\centering
+\includesvg[]{imgs/branch.svg}
+\end{figure}
+
 \end{frame}
 
 \begin{frame}{Bounding}
 \begin{itemize}
-\item Initially, we only know that $-\infty < c^\top x_{MILP}^* < \infty$ (not very helpful).
-\item Improve bounds until Upper Bound $-$ Lower Bound $< \epsilon$:
+\item Initially, we only know that $-\infty < c^\top x^* < \infty$ (not very helpful).
+\item Improve bounds:
 \begin{itemize}
-\item Lower Bound: For any LP-Relaxation, we have $c^\top x_{LP}^* \leq c^\top x_{MILP}^*$
-\item Upper Bound: By definition, $c^\top x_{MILP}^* \leq c^\top x$ for any feasible $x \in F_{MILP}$
+\item Lower Bound: For any LP-Relaxation, we have $c^\top \hat{x} \leq c^\top x^*$
+\item Upper Bound: By definition, $c^\top x^* \leq c^\top x$ for any feasible $x \in F$
+\end{itemize}
+\item For an optimal solution $\hat{x}$ of a subproblem:
+\begin{itemize}
+\item if $c^\top \hat{x} \geq $ upper bound, prune tree (stop branching).
+\item if $\hat{x}$ is feasible, update upper bound and prune.
+\item if $\hat{x}$ is infeasible, update lower bound and branch.
+\item stop if tree is completely pruned or upper bound $-$ lower bound $< \epsilon$.
 \end{itemize}
 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Example}
+\only<1>{
+\begin{figure}
+\centering
+\includesvg[height=0.8\textheight]{imgs/bb_idea_0.svg}
+\end{figure}
+}
+\only<2>{
+\begin{figure}
+\centering
+\includesvg[height=0.8\textheight]{imgs/bb_idea_1.svg}
+\end{figure}
+}
+\only<3>{
+\begin{figure}
+\centering
+\includesvg[height=0.8\textheight]{imgs/bb_idea_2.svg}
+\end{figure}
+}
+\only<4>{
+\begin{figure}
+\centering
+\includesvg[height=0.8\textheight]{imgs/bb_idea_3.svg}
+\end{figure}
+}
+\only<5>{
+\begin{figure}
+\centering
+\includesvg[height=0.8\textheight]{imgs/bb_idea_4.svg}
+\end{figure}
+}
+\end{frame}
+
+\begin{frame}{Subproblem and Branching Variable Selection Strategies}
+\begin{itemize}
+\item Subproblem selection:
+\begin{itemize}
+\item Depth-First: Descend quickly to obtain a good upper bound (obtain a feasible solution fast).
+\item Best-First: Pick the active node with the current lower bound (obtain a good lower bound).
+\end{itemize}
+
+\item Branching variable selection:
+\begin{itemize}
+\item Most fractional: $i = \arg \max_{1 \leq i \leq n_1} \min (f_i, 1-f_i)$ ($f_i$ close to $\frac{1}{2}$).
+\item Multiple variables at once.
+\end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Cutting Planes + Branch \& Bound = Branch \& Cut }
 \begin{itemize}
-\item Used by many commercial solvers %TODO reference, examples
-\item Branch \& Bound but add cuts before branching.
+\item Cutting Planes or Branch \& Bound on their own are inefficient in practice.
+\item Combine the two to Branch \& Cut. This works like Branch \& Bound but with additionally adding cuts before branching. 
+\item Used most often in practice. %TODO reference, examples
 \end{itemize}
 \end{frame}

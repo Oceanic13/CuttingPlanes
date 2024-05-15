@@ -53,7 +53,6 @@ Solve the problem relaxation. If integer constraints are violated, add additiona
 	\end{equation*}
 \end{itemize}
 
-%TODO
 \end{frame}
 
 \begin{frame}{Cutting Planes Algorithm}
@@ -83,7 +82,7 @@ Solve the problem relaxation. If integer constraints are violated, add additiona
 \column{0.5\textwidth}
 \begin{itemize}
 \item The relaxed solution $\hat{x}$ in $\text{conv}(F)$ also solves the MILP.
-\item But computing the convex hull is infeasible. %TODO find reference
+\item But computing the convex hull is infeasible.
 \item Our goal is instead to approximate the convex hull in a neighborhood of $x^*$.
 \end{itemize}
 
@@ -228,8 +227,8 @@ Simplex finds $\hat{x} \in P \times \mathbb{R}_{\geq 0}^{N-n}$ and creates the o
 \begin{columns}
 \column{0.5\textwidth}
 \begin{itemize}
-\item $x_1,...,x_{n_1}$: Integer problem variables
-\item $x_{n_1+1},...,x_n$: Real problem variables
+\item $x_1,...,x_{n_1}$: Integral decision variables
+\item $x_{n_1+1},...,x_n$: Real decision variables
 \item $x_{n+1},...,x_N$: (Real) slack variables
 \end{itemize}
 
@@ -274,17 +273,18 @@ is a valid inequality for $F$ that is not satisfied by $\hat{x}$.
 \item Repeat the following two steps until $\hat{x} \in F$:
 \begin{enumerate}
 \item Solve the LP using the Simplex Algorithm and obtain $\hat{x} \in P$
-\item If $\hat{x} \notin F$, pick $i \in \{1,...,n_1\}$ s.t. $\hat{x}_i \notin \mathbb{Z}$ and add the corresponding CMI-Cut to the LP.
+\item If the problem is infeasible ($P = \emptyset$), return INEASIBLE. If the problem is unbounded and no integer constraints are violated, return UNBOUNDED
+\item If $\hat{x} \notin F$, pick $i \in \{1,...,n_1\}$ s.t. $\hat{x}_i \notin \mathbb{Z}$ and add the corresponding GMI-Cut to the LP.
 \end{enumerate}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Project Demonstration}
-C++ simplex solver and mixed integer Gomory cut. Python visualiser for 2D problems.
-%TODO
-% Simplex Algorithm
-% Mixed Integer Gomory Cuts
-% Python Visualizer
+\begin{itemize}
+\item Simplex Solver
+\item Mixed Integer Gomory Cut
+\item 2D Visualisation
+\end{itemize}
 
 %\begin{tcolorbox}[colback=white, title={MILP Standard Form}]
 %    \begin{align*}
@@ -298,18 +298,16 @@ C++ simplex solver and mixed integer Gomory cut. Python visualiser for 2D proble
 %    %Also mention resubstitution of slack variables
 \end{frame}
 
-\begin{frame}{Selecting Cutting Planes}
+\begin{frame}{Cutting Planes Selection}
 \begin{itemize}[<+->]
 \item Only adding an arbitrary, single cutting plane is very inefficient if the problem dimension is large.
 \begin{itemize}
-\item Heuristic to evaluate the efficiency of a cutting plane (e.g. euclidean distance to $\hat{x}$).
+\item Evaluate the efficiency of a cutting plane based on some heuristics (for example euclidean distance to $\hat{x}$).
 \item Add multiple cutting planes in each iteration.
 \end{itemize}
-\item Other cutting plane strategies exist. % Apply cut to original inequalities
-%TODO Different Cutting Planes methods have been proposed/also depending on the specific problem
+\item Other cutting plane strategies exist:
+\begin{itemize}
+\item Knapsack Covers or GUB (generalized upper bound) covers for binary programs.
 \end{itemize}
-\end{frame}
-
-\begin{frame}{Complexity}
-%TODO
+\end{itemize}
 \end{frame}
