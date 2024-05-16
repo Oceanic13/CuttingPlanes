@@ -90,6 +90,7 @@ class MILP:
         data['n'], data['n1'], data['m'], data['p'] = self.n, self.n1, self.m, self.p
         with open(file, "w") as f:
             json.dump(data, f)
+            print('saved')
 
     def objective_str(self) -> str:
         return r'$\min_{x,y}\:$' + coeffs_str(self.c, ['x', 'y'])
@@ -157,7 +158,7 @@ class Plotter:
     def plot_point(self, x, y, color='r'):
         plt.plot(x, y, color+'o', markersize=10, label='(x,y)=(%g, %g)' % (x, y))
 
-    def plot_legend(self):
+    def plot_legend(self, title):
         plt.title(title)
         plt.legend(bbox_to_anchor=(1.05,1), loc="upper left")
         plt.xlabel('x')
@@ -192,7 +193,7 @@ class Plotter:
 
         # Labels and Stuff
         if show_legend:
-            self.plot_legend()
+            self.plot_legend(title)
         self.plot_grid()
 
         plt.xticks(np.arange(np.floor(self.xmin), self.xmax, 1))
