@@ -16,7 +16,7 @@ $$
 by iteratively solving the problem relaxation (where the integral constraints are ignored) and adding additional inequalities (so called cutting planes) which
 are valid for any feasible point but cut off the relaxed solution if it violates any integral constraints. This process is repeated until a feasible solution has been found.
 
-For more details refer to one of the following textbooks:
+Some textbooks for the interested:
 - [John Wiley and Sons, Ltd - 2020 - Integer Programming](https://doi.org/10.1002/9781119606475.oth1)
 - [Papadimitriou, Christos and Steiglitz, Kenneth - 1982 - Combinatorial Optimization: Algorithms and Complexity](https://doi.org/10.1109/TASSP.1984.1164450)
 
