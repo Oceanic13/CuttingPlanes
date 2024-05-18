@@ -30,7 +30,7 @@ This project contains
 using MILP = MixedIntegerLinearProgram
 
 // Make a MILP
-// minimize -y s.t. 3x+2y <= 6 and -3x+2y <= 0 and x,y >= 0 and x,y integral
+// minimize -y s.t. 3x+2y <= 6 and -3x+2y <= 0 and x,y >= 0 (and x,y integral (ignored by the Simplex Solver))
 Vecd c(2); c << 0, -1; // objective
 Matd A(2,2); A << 3, 2, -3, 2; // inequalities
 Vecd b(2); b << 6, 0;
