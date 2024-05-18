@@ -1,7 +1,6 @@
 
-#include "CuttingPlanes.h"
 #include "MixedIntegerLinearProgram.h"
-#include "ToblexSolver.h"
+#include "Solvers.h"
 #include "Utils.h"
 #include "gtest/gtest.h"
 
@@ -216,12 +215,12 @@ TEST(CuttingPlaneTest, OptBookP331Test)
     Vecd c(2); c << 0, -1;
 
     auto milp = MILP::inequalityILP(c, A, b);
-    auto solver = CuttingPlanes(milp);
+    auto solver = CuttingPlanesSolver(milp);
     solver.solve();
 
     Vecd expected(2); expected << 1, 1;
 
-    ASSERT_EQ(2, solver.numberOfCuts());
+    ASSERT_EQ(2, solver.getHistory().n_cuts());
     ASSERT_EQ(expected, solver.optimalSolution());
     ASSERT_DOUBLE_EQ(-1, solver.optimalValue());
 }
@@ -236,10 +235,10 @@ TEST(CuttingPlaneTest, IntegerProblemIsInfeasibleTest)
     v << 0, 1; milp.addConstraint(v, 0.25, MILP::GEQ); // y >= 0.25
     v << 0, 1; milp.addConstraint(v, 0.75, MILP::LEQ); // y <= 0.75
 
-    auto solver = CuttingPlanes(milp);
+    auto solver = CuttingPlanesSolver(milp);
     solver.solve();
 
-    ASSERT_EQ(1, solver.numberOfCuts());
+    ASSERT_EQ(1, solver.getHistory().n_cuts());
     ASSERT_TRUE(solver.isInfeasible());
 }
 

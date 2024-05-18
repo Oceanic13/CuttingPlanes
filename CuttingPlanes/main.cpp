@@ -1,7 +1,7 @@
 
-#include "CuttingPlanes.h"
+//#include "CuttingPlanes.h"
 #include "MixedIntegerLinearProgram.h"
-#include "ToblexSolver.h"
+#include "Solvers.h"
 
 using namespace CP;
 using MILP = MixedIntegerLinearProgram;
@@ -20,9 +20,9 @@ int main(int argc, char* argv[])
 
         std::cout << "Cut me some slack!" << std::endl;
 
-        auto cp = CuttingPlanes(milp);
+        auto cp = CuttingPlanesSolver(milp);
         cp.solve();
-        cp.exportJson(outFile);
+        cp.getHistory().exportJson(outFile);
 
         return 0;
     }
@@ -36,22 +36,13 @@ int main(int argc, char* argv[])
     auto milp = MILP::inequalityILP(c, A, b);
     std::cout << milp << std::endl;
     milp.exportJson("/Users/tobiaskohler/Uni/CuttingPlanes/data/milp.json");
-
-    // Example from Book p35
-    /*
-    milp = MILP(toVecd({-1, -2, -3}));
-    milp.addConstraint(toVecd({1,2.5,1.75}), 8, MILP::LEQ);
-    milp.addConstraint(toVecd({1,0,0}), 3.5, MILP::LEQ);
-    milp.addConstraint(toVecd({0,0,1}), 5.25, MILP::LEQ);
-    milp.addConstraint(toVecd({0,3,2}), 6, MILP::LEQ);
-    milp.exportJson("/Users/tobiaskohler/Uni/CuttingPlanes/milp.json");
-*/
     
-    auto cp = CuttingPlanes(milp);
+    auto cp = CuttingPlanesSolver(milp);
     cp.solve();
-    std::cout << cp.numberOfCuts() << std::endl;
+    auto& h = cp.getHistory();
+    std::cout << h.n_cuts() << std::endl;
     std::cout << cp.optimalSolution().transpose() << std::endl;
-    cp.exportJson("/Users/tobiaskohler/Uni/CuttingPlanes/data/cp.json");
+    h.exportJson("/Users/tobiaskohler/Uni/CuttingPlanes/data/cp.json");
 
     return 0;
 }

@@ -81,8 +81,10 @@ namespace CP
 
     typedef nlohmann::json Json;
 
+    /// integral part of a number (rounded down)
     inline constexpr int getInt(const double& d) {return std::floor(d);}
 
+    /// fractional part of a number
     inline constexpr double getFrac(const double& d) {return d - getInt(d);}
 
     inline constexpr bool isInt(const double& d) {double f = getFrac(d); return f<EPSILON || f>1-EPSILON;}
@@ -99,12 +101,3 @@ namespace CP
         return out;
     }
 }
-
-/*
-# enable_testing()
-# include(GoogleTest)
-# find_package(Boost REQUIRED COMPONENTS system filesystem)
-# add_executable(${PROJECT_NAME}-test
-#         tests.cpp
-#         )
-*/

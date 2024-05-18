@@ -2,20 +2,32 @@
 
 #include "MixedIntegerLinearProgram.h"
 #include "Utils.h"
+#include <fstream>
 
 namespace CP
 {
 using MILP = MixedIntegerLinearProgram;
 
-// TODO: Much better to have a sparse Matrix for the Tableau...
-// TODO: We probably do not need to reset the entire tableau everytime
-// Set the Tableau to the initial tableau if it exists and then manually add the new inequality to it
+// TODO: Move generateGomoryCut to Cutting Planes Solver
+
+// TODO: Sparse Matrix instead of dense for tableau?
+
+// TODO: Don't start from 0 again in each Cutting Planes iteration
+
+// TODO: Smarter Cutting Planes generation: Don't just pick a random non-integer variable
+// generally more control: Select Type of cut, e.g. specific for binary program?
+
+// TODO: Handle unbounded problems correctly (for cutting planes)
 
 /**
- * My own Simplex Solver to have something that works and that I understand!
+ * Two Phase Primal Simplex Algorithm to solve Linear Programs of the general form
+ * minimize c*x
+ * s.t. Ax <= b and Bx = d and x >= 0
  */
 class ToblexSolver
 {
+    friend class CuttingPlanesSolver;
+
 public:
     enum SolStatus {NONOPTIMAL=0, OPTIMAL=1, UNBOUNDED=2, INFEASIBLE=3};
 
@@ -33,6 +45,7 @@ public:
         initialT = T;
         initialBasis = basis;
 
+        // PHASE 1 SIMPLEX
         if (nArtificialVars > 0) { // Check if we need to solve the Phase 1 Problem first to find a feasible starting point other than x=0
             T.row(0).fill(0);
             T.row(0).segment(problem.dimension()+nSlackVars, nArtificialVars).fill(-1); // Set Sum of Artificial Variables as Function to Minimize
@@ -45,9 +58,10 @@ public:
             }
             removeArtificialColumns();
             setProblemObjective(problem.costCoefficients());
-            removeBasicsInObjective(); // If a basis var (problem) appears in the obj. function, remove it using row op.
+            removeBasicsInObjective(); // If a basis var (decision) appears in the obj. function, remove it using row op.
         }
 
+        // PHASE 2 SIMPLEX
         solveSimplex();
 
         // Get optimal solution
@@ -151,12 +165,15 @@ public:
 
     void addConstraint(const Vecd& Ai, const double& bi, const MILP::ConstraintType type = MILP::LEQ) {
         if (type == MILP::GEQ) {addConstraint(-Ai, -bi, MILP::LEQ);}
+
         //     // For each inequality constraint <= b with b >= 0
         //     // add a slack variable
         //     // e.g. 2x + y <= 2 becomes 2x + y + s = 2
+
         //     // For each inequality constraint <= b with b < 0
         //     // multiply by -1, subtract a slack variable and add an artificial variable
         //     // e.g. 2x - y <= -3 becomes -2x + y - s + a = 3
+
         //     // For each equality constraint = d
         //     // multiply the equation by -1 if d < 0 and add an artificial variable if d >= 0
         //     // e.g. 3x - 2y = 4 becomes 3x - 2y + a = 4
@@ -201,7 +218,7 @@ private:
         const Vecd& c = problem.costCoefficients();
         const Matd& A = problem.inequaltyMatrix();
         const Vecd& b = problem.inequalityVector();
-        const Matd& B = problem.equaltyMatrix();
+        const Matd& B = problem.equalityMatrix();
         const Vecd& d = problem.equalityVector();
 
         uint n = problem.dimension();
@@ -396,4 +413,130 @@ private:
         return out;
     }
 };
+
+class CuttingPlanesHistory {
+    friend class CuttingPlanesSolver;
+public:
+    explicit CuttingPlanesHistory() {}
+
+    void push_back_solution(Vecd x, double v)
+    {
+        simplex_solutions.push_back(x);
+        simplex_values.push_back(v);
+    }
+
+    void push_back_cut(Vecd a, double b)
+    {
+        cuts_coeffs.push_back(a);
+        cuts_rhs.push_back(b);
+    }
+
+    void clear()
+    {
+        simplex_solutions.clear();
+        simplex_values.clear();
+        cuts_coeffs.clear();
+        cuts_rhs.clear();
+    }
+
+    void exportJson(const std::string& filename)
+    {
+        Json j;
+        j["sols"] = simplex_solutions;
+        j["cuts_coeffs"] = cuts_coeffs;
+        j["cuts_rhs"] = cuts_rhs;
+
+        std::ofstream o(filename);
+        o << std::setw(4) << j << std::endl;
+        o.close();
+    }
+
+    int n_cuts() {return cuts_coeffs.size();}
+
+private:
+    std::vector<Vecd> simplex_solutions;
+    std::vector<double> simplex_values;
+    std::vector<Vecd> cuts_coeffs;
+    std::vector<double> cuts_rhs;
+};
+
+class CuttingPlanesSolver
+{
+public:
+    explicit CuttingPlanesSolver(MixedIntegerLinearProgram& problem) : problem(problem), toblex(ToblexSolver(problem)) {
+
+    }
+
+    /// Solves the Mixed Integer Linear Program using Cutting Planes
+    void solve(int max_iters=100)
+    {
+        solStat = ToblexSolver::NONOPTIMAL;
+        history.clear();
+        uint n = problem.dimension();
+
+        Vecd Ai(n);
+        double bi;
+        Vecd x(n);
+
+        for (uint iter = 0; iter < max_iters; ++iter) {
+
+            toblex.solve();
+
+            if (toblex.isInfeasible()) {
+                solStat = ToblexSolver::INFEASIBLE;
+                break;
+            }
+
+            double v = toblex.getOptimalValue();
+            x = toblex.getOptimalSolution();
+
+            std::cout << "Simplex: " << x.transpose() << " with value " << v << std::endl;
+
+            history.push_back_solution(x, v);
+
+            if (toblex.generateGomoryMixedIntegerCut(x, Ai, bi)) {
+                history.push_back_cut(Ai, bi);
+                addInequalityConstraint(Ai, bi);
+                std::cout << "Add Cut " << Ai.transpose() << " <= " << bi << std::endl;
+            } else {
+                solStat = ToblexSolver::OPTIMAL;
+                optimal_solution = x;
+                optimal_value = v;
+                std::cout << "Finished: " << x.transpose() << " with value " << v << std::endl;
+                break;
+            }
+        }
+    }
+
+
+    CuttingPlanesHistory& getHistory()
+    {
+        return history;
+    }
+
+    inline const Vecd& optimalSolution() {return optimal_solution;}
+
+    inline const double optimalValue() {return optimal_value;}
+
+    inline bool isInfeasible() {return solStat == ToblexSolver::INFEASIBLE;}
+
+private:
+    MILP& problem;
+    ToblexSolver toblex;
+    ToblexSolver::SolStatus solStat;
+
+    Vecd optimal_solution;
+    double optimal_value;
+    CuttingPlanesHistory history;
+
+    /**
+     * Adds the linear constraint ax <= b to the system
+     */
+    void addInequalityConstraint(const Vecd& Ai, const double& bi)
+    {
+        problem.addConstraint(Ai, bi, MILP::LEQ);
+        toblex.addConstraint(Ai, bi, MILP::LEQ);
+    }
+};
+
 }

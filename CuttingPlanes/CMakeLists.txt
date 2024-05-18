@@ -17,9 +17,9 @@ add_executable(${PROJECT_NAME}
 
     Utils.h
 
-    CuttingPlanes.h
 
-    ToblexSolver.h
+
+    Solvers.h
     MixedIntegerLinearProgram.h
 
 

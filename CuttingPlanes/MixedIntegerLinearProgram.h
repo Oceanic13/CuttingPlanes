@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Utils.h"
+#include <fstream>
 
 namespace CP
 {
@@ -36,23 +37,27 @@ public:
         importJson(filename);
     }
 
+    /// Set the objective function to c*x
     void setObjective(const Vecd& c) {
         assert(c.size() == dimension());
         this->c = c;
     }
 
+    /// Returns the Integer Linear Program minimize c*x s.t. Ax <= b
     static MixedIntegerLinearProgram inequalityILP(const Vecd& c, const Matd& A, const Vecd& b) {
         Vecd d(0);
         Matd B(0,c.size());
         return MixedIntegerLinearProgram(c, A, b, B, d, c.size());
     }
 
+    /// Returns the Integer Linear Program minimize c*x s.t. Bx <= d
     static MixedIntegerLinearProgram equalityILP(const Vecd& c, const Matd& B, const Vecd& d) {
         Vecd b(0);
         Matd A(0,c.size());
         return MixedIntegerLinearProgram(c, A, b, B, d, c.size());
     }
 
+    /// Adds an inequality or equality constraint to the problem
     void addConstraint(const Vecd& coeffs, const double& rhs, const ConstraintType type = LEQ)
     {
         if (type == EQ)
@@ -73,6 +78,7 @@ public:
         }
     }
 
+    /// Checks if x is a feasible point for the problem relaxation
     inline bool isFeasible(const Vecd& x)
     {
         assert(x.size()==n);
@@ -101,7 +107,7 @@ public:
 
     inline const Vecd& inequalityVector() {return b;}
 
-    inline const Matd& equaltyMatrix() {return B;}
+    inline const Matd& equalityMatrix() {return B;}
 
     inline const Vecd& equalityVector() {return d;}
 
@@ -161,14 +167,14 @@ public:
     }
 
 private:
-    uint n;
-    uint m;
-    uint p;
-    Vecd c;
-    Matd A;
-    Vecd b;
-    Matd B;
-    Vecd d;
-    uint n1;
+    uint n; // dimension
+    uint m; // number of inequalities
+    uint p; // number of equalities
+    Vecd c; // objective function (gradient)
+    Matd A; // inequality matrix (Ax <= b)
+    Vecd b; // inequalities rhs (Ax <= b)
+    Matd B; // equality matrix (Bx = d)
+    Vecd d; // equalities rhs (Bx = d)
+    uint n1; // number of integer constraints (x1,...,xn1 are integers)
 };
 }
