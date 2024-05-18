@@ -18,7 +18,7 @@ are valid for any feasible point but cut off the relaxed solution if it violates
 
 
 This project contains
-- a c++ implementation of the Simplex Algorithm to solve LPs ([](./CuttingPlanes/))
+- a c++ implementation of the Simplex Algorithm to solve LPs ([cpp](./CuttingPlanes/))
 ```cpp
 #include "Utils.h"
 #include "MixedIntegerLinearProgram.h"
@@ -43,7 +43,7 @@ double optimal_value = solver.getOptimalValue(); // - 1.5
 
 ```
 
-- a c++ implementation of the Cutting Planes Method using Mixed Integer Gomory Cuts to solve MILPs ([](./CuttingPlanes/))
+- a c++ implementation of the Cutting Planes Method using Mixed Integer Gomory Cuts to solve MILPs ([cpp](./CuttingPlanes/))
 ```cpp
 #include "Utils.h"
 #include "MixedIntegerLinearProgram.h"
@@ -67,4 +67,4 @@ Vec2d optimal_solution = solver.getOptimalSolution(); // (1, 1)
 double optimal_value = solver.getOptimalValue(); // - 1
 
 ```
-- a python program to visualize the Cutting Planes Method in 2D ([](./Visualizer.ipynb))
+- a python program to visualize the Cutting Planes Method in 2D ([python](./Visualizer.ipynb))
