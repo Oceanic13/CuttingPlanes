@@ -18,10 +18,53 @@ are valid for any feasible point but cut off the relaxed solution if it violates
 
 
 This project contains
-- a c++ implementation of the Simplex Algorithm to solve LPs
+- a c++ implementation of the Simplex Algorithm to solve LPs ([](./CuttingPlanes/))
 ```cpp
-Hello World
+#include "Utils.h"
+#include "MixedIntegerLinearProgram.h"
+#include "Solvers.h"
+using MILP = MixedIntegerLinearProgram
+
+// Make a MILP
+// minimize -y s.t. 3x+2y <= 6 and -3x+2y <= 0 and x,y >= 0 and x,y integral
+Vecd c(2); c << 0, -1; // objective
+Matd A(2,2); A << 3, 2, -3, 2; // inequalities
+Vecd b(2); b << 6, 0;
+Matd B(0,2); // equalities
+Vecd d(0);
+int n1 = 2; // number of integral constraints
+auto milp = MILP(c, A, b, B, d, n1);
+
+auto solver = ToblexSolver(milp);
+solver.solve();
+
+Vec2d optimal_solution = solver.getOptimalSolution(); // (1, 1.5)
+double optimal_value = solver.getOptimalValue(); // - 1.5
+
 ```
 
-- a c++ implementation of the Cutting Planes Method using Mixed Integer Gomory Cuts to solve MILPs
-- a python program to visualize the Cutting Planes Method in 2D
+- a c++ implementation of the Cutting Planes Method using Mixed Integer Gomory Cuts to solve MILPs ([](./CuttingPlanes/))
+```cpp
+#include "Utils.h"
+#include "MixedIntegerLinearProgram.h"
+#include "Solvers.h"
+using MILP = MixedIntegerLinearProgram
+
+// Make a MILP
+// minimize -y s.t. 3x+2y <= 6 and -3x+2y <= 0 and x,y >= 0 and x,y integral
+Vecd c(2); c << 0, -1; // objective
+Matd A(2,2); A << 3, 2, -3, 2; // inequalities
+Vecd b(2); b << 6, 0;
+Matd B(0,2); // equalities
+Vecd d(0);
+int n1 = 2; // number of integral constraints
+auto milp = MILP(c, A, b, B, d, n1);
+
+auto solver = CuttingPlanesSolver(milp);
+solver.solve(); // generates two cutting planes until the solution is integral
+
+Vec2d optimal_solution = solver.getOptimalSolution(); // (1, 1)
+double optimal_value = solver.getOptimalValue(); // - 1
+
+```
+- a python program to visualize the Cutting Planes Method in 2D ([](./Visualizer.ipynb))
