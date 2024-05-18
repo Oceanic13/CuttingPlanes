@@ -27,6 +27,7 @@ using MILP = MixedIntegerLinearProgram;
 class ToblexSolver
 {
     friend class CuttingPlanesSolver;
+    friend class BranchBoundSolver;
 
 public:
     enum SolStatus {NONOPTIMAL=0, OPTIMAL=1, UNBOUNDED=2, INFEASIBLE=3};
@@ -536,6 +537,16 @@ private:
     {
         problem.addConstraint(Ai, bi, MILP::LEQ);
         toblex.addConstraint(Ai, bi, MILP::LEQ);
+    }
+};
+
+
+// TODO: Sometime
+class BranchBoundSolver
+{
+public:
+    explicit BranchBoundSolver(MixedIntegerLinearProgram& problem)
+    {
     }
 };
 
