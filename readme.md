@@ -3,11 +3,10 @@ Selected topic in the course "Seminar Applied Optimization" in the spring semest
 
 Cutting Planes are a method to solve a Mixed Integer Linear Program (MILP) of the form
 
-$$\min_x \quad c \cdot x$$
-subject to
 $$
 \begin{align}
-Ax \leq b \\
+\min_x \quad c \cdot x \\
+\text{s.t.} Ax \leq b \\
 Bx = d \\
 x \geq 0 \\
 x \in \mathbb{Z}^{n_1} \times \mathbb{R}^{n_2}
