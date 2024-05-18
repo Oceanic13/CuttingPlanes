@@ -72,3 +72,6 @@ double optimal_value = solver.getOptimalValue(); // - 1
 
 ```
 - a python program to visualize the Cutting Planes Method in 2D ([python](./Visualizer.ipynb))
+  1. Build the cpp project using cmake
+  2. Run ([Visualizer.ipynb](./Visualizer.ipynb)) (specify the correct build path)
+  3. Have fun! Mixed Integer Linear Programs can be stored in json format imported/exported in the cpp project as well as in the python project.
