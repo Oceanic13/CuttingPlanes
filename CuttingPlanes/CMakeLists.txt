@@ -16,15 +16,8 @@ add_executable(${PROJECT_NAME}
     main.cpp
 
     Utils.h
-
-
-
     Solvers.h
     MixedIntegerLinearProgram.h
-
-
-    #${LIBS_CPP}
-    #${LIBS_H}
 )
 
 include(GNUInstallDirs)
@@ -45,14 +38,6 @@ if (NOT TARGET Eigen3::Eigen)
     FetchContent_MakeAvailable(eigen)
 endif()
 
-# if (NOT TARGET libsoplex)
-#     FetchContent_Declare(soplex
-#         GIT_REPOSITORY https://github.com/scipopt/soplex
-#         SOURCE_DIR "${EXTERNAL_DIR}/SoPlex"
-#     )
-#     FetchContent_MakeAvailable(soplex)
-# endif()
-
 
 if (NOT TARGET nlohmann::json)
     FetchContent_Declare(json
@@ -65,8 +50,6 @@ endif()
 find_package(Boost REQUIRED COMPONENTS system filesystem)
 
 target_link_libraries (${PROJECT_NAME} PUBLIC
-    #Boost::boost
-    #libsoplex
     nlohmann_json::nlohmann_json
     Eigen3::Eigen
 )
@@ -92,8 +75,6 @@ add_executable(${PROJECT_NAME}-test
 )
 target_link_libraries(${PROJECT_NAME}-test
     gtest gtest_main
-    #Boost::boost
-    #libsoplex
     nlohmann_json::nlohmann_json
     Eigen3::Eigen
 )
