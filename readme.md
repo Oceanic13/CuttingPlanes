@@ -5,11 +5,11 @@ Cutting Planes are a method to solve a Mixed Integer Linear Program (MILP) of th
 
 $$
 \begin{align}
-\min_x \quad c \cdot x \\
-\text{s.t.} Ax \leq b \\
-Bx = d \\
-x \geq 0 \\
-x \in \mathbb{Z}^{n_1} \times \mathbb{R}^{n_2}
+\min_x \quad &c \cdot x \\
+\text{s.t.} &Ax \leq b \\
+&Bx = d \\
+&x \geq 0 \\
+&x \in \mathbb{Z}^{n_1} \times \mathbb{R}^{n_2}
 \end{align}
 $$
 
