@@ -7,17 +7,17 @@
 namespace CP
 {
 using MILP = MixedIntegerLinearProgram;
+using SMILP = SparseMixedIntegerLinearProgram;
 
-// TODO: Move generateGomoryCut to Cutting Planes Solver
-
-// TODO: Sparse Matrix instead of dense for tableau?
-
-// TODO: Don't start from 0 again in each Cutting Planes iteration
-
-// TODO: Smarter Cutting Planes generation: Don't just pick a random non-integer variable
-// generally more control: Select Type of cut, e.g. specific for binary program?
-
-// TODO: Handle unbounded problems correctly (for cutting planes)
+/**
+ * Ideas for the Future:
+ * - Move generateGomoryCut to Cutting Planes Solver
+ * - Sparse Matrix instead of dense for tableau?
+ * - Don't start from 0 again in each Cutting Planes iteration
+ * - Smarter Cutting Planes generation: Don't just pick a random non-integer variable
+ *   generally more control: Select Type of cut, e.g. specific for binary program?
+ * - Handle unbounded problems correctly (for cutting planes)
+ */
 
 /**
  * Two Phase Primal Simplex Algorithm to solve Linear Programs of the general form
@@ -540,14 +540,79 @@ private:
     }
 };
 
+// class BranchBoundSolver
+// {
+// public:
+//     explicit BranchBoundSolver(MixedIntegerLinearProgram& problem)
+//     {
+//     }
+// };
 
-// TODO: Sometime
-class BranchBoundSolver
-{
-public:
-    explicit BranchBoundSolver(MixedIntegerLinearProgram& problem)
-    {
-    }
-};
+// class SparseToblexSolver
+// {
+
+// public:
+//     enum SolStatus {NONOPTIMAL=0, OPTIMAL=1, UNBOUNDED=2, INFEASIBLE=3};
+
+//     explicit SparseToblexSolver(SMILP& milp) : milp(milp), status(NONOPTIMAL)
+//     {}
+
+//     friend std::ostream& operator<< (std::ostream& out, const SolStatus& s) {
+//         if (s == NONOPTIMAL) return out << "Nonoptimal";
+//         if (s == OPTIMAL) return out << "Optimal";
+//         if (s == UNBOUNDED) return out << "Unbounded";
+//         if (s == INFEASIBLE) return out << "Infeasible";
+//         return out;
+//     }
+
+// private:
+//     SMILP& milp;
+//     std::vector<SVecd> Td; // Decision Tableau
+//     std::vector<SVecd> Ts; // Slack Tableau
+//     std::vector<SVecd> Ta; // Artificial Tableau
+//     SolStatus status;
+//     std::vector<int> basis; // Basic variables
+//     SVecd solution;
+
+//     void buildTableau()
+//     {
+//         const SVecd& c = milp.objectiveGradient();
+//         const SMatd& A = milp.inequaltyMatrix();
+//         const SVecd& b = milp.inequalityVector();
+//         const SMatd& B = milp.equalityMatrix();
+//         const SVecd& d = milp.equalityVector();
+
+//         uint n = milp.dimension();
+//         uint m = milp.nInequalities();
+//         uint p = milp.nEqualities();
+
+//         basis.resize(m+p);
+
+//         T = Matd(1, n+1);
+//         setPhase1Objective();
+//         for (uint i = 0; i < m; ++i) {addConstraint(A.row(i), b.coeff(i), SMILP::LEQ);}
+//         for (uint i = 0; i < p; ++i) {addConstraint(B.row(i), d.coeff(i), SMILP::EQ);}
+//     }
+
+//     /// Sets the sum of artificial variables as the function to minimize
+//     void setPhase1Objective()
+//     {
+//         Td[0].setZero();
+//         Ts[0].setZero();
+//         fillSVecd(Ta[0], -1);
+//     }
+
+//     /// Sets the decision objective function as the function to minimize
+//     void setPhase2Objective()
+//     {
+//         Td[0] = -milp.objectiveGradient();
+//         Ts[0].setZero();
+//         Ta[0].setZero();
+//     }
+
+//     inline uint nDecisionVars() {return Td.cols();}
+//     inline uint nSlackVars() {return Ts.cols();}
+//     inline uint nArtificialVars() {return Ta.cols();}
+// };
 
 }

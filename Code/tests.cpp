@@ -8,6 +8,7 @@ namespace CP
 {
 
 using MILP = MixedIntegerLinearProgram;
+using SMILP = SparseMixedIntegerLinearProgram;
 
 TEST(UtilsTest, GetIntTest)
 {
@@ -240,6 +241,21 @@ TEST(CuttingPlaneTest, IntegerProblemIsInfeasibleTest)
 
     ASSERT_EQ(1, solver.getHistory().n_cuts());
     ASSERT_TRUE(solver.isInfeasible());
+}
+
+TEST(ToblexTest, SparseMILPTest)
+{
+    auto milp = SMILP(2, 2);
+    milp.setObjective(1, -1);
+
+    auto a = SVecd(2);
+    a.coeffRef(0) = 3;
+    a.coeffRef(1) = 2;
+    milp.addConstraint(a, 6, SMILP::LEQ);
+
+    a.coeffRef(0) = -3;
+    a.coeffRef(1) = 2;
+    milp.addConstraint(a, 0, SMILP::LEQ);
 }
 
 int main(int argc, char** argv)

@@ -16,9 +16,14 @@ namespace CP
     using Vecd = Eigen::VectorXd;
     using Matd = Eigen::MatrixXd;
     using SVecd = Eigen::SparseVector<double>;
-    using SMatd = Eigen::SparseMatrix<double>;
+    using SMatd = Eigen::SparseMatrix<double,Eigen::RowMajor>;
     using Triplet = Eigen::Triplet<double>;
+    using Triplets = std::vector<Triplet>;
     using MatdBlock = Eigen::Block<double>;
+    using SVecdIter = SVecd::InnerIterator;
+    using SMatdIter = SMatd::InnerIterator;
+    //using SMatdRowIter = Eigen::SparseMatrix<double,Eigen::ColMajor>::InnerIterator;
+    //using SMatdColIter = Eigen::SparseMatrix<double,Eigen::RowMajor>::InnerIterator;
 
     Vecd toVecd(const std::vector<double> v) {
         Vecd r(v.size());
@@ -100,4 +105,13 @@ namespace CP
         }
         return out;
     }
+
+    // Sparse Matrix Operations
+    //inline void pruneRow(SMatd& A, int r) {A.prune([&r](int i, int j, float) {return i!=r;});}
+    //inline void pruneCol(SMatd& A, int c) {A.prune([&c](int i, int j, float) {return j!=c;});}
+    //inline void fillRow(SMatd& A, int i, double d) {for (int j=0;j<A.cols();++j) {A.coeffRef(i,j)=d;}}
+    //inline void fillCol(SMatd& A, int j, double d) {for (int i=0;i<A.rows();++i) {A.coeffRef(i,j)=d;}}
+    //inline void setRow(SMatd& A, int i, const SVecd& a) {pruneRow(A, i); for (SVecdIter it(a); it; ++it) {A.coeffRef(i, it.index()) = it.value();}}
+    //inline void setCol(SMatd& A, int j, const SVecd& a) {pruneCol(A, j); for (SVecdIter it(a); it; ++it) {A.coeffRef(it.index(), j) = it.value();}}
+    inline void fillSVecd(SVecd& vec, double d) {for (int i = 0; i < vec.size(); ++i) {vec.coeffRef(i) = d;}}
 }

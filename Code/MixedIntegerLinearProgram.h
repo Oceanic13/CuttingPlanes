@@ -79,6 +79,7 @@ public:
     }
 
     /// Checks if x is a feasible point for the problem relaxation
+    /*
     inline bool isFeasible(const Vecd& x)
     {
         assert(x.size()==n);
@@ -86,6 +87,7 @@ public:
                ((A*x).array() <= b.array()).all() &&
                (B*x).isApprox(d);
     }
+*/
 
     inline const uint dimension() {return n;}
 
@@ -175,6 +177,114 @@ private:
     Vecd b; // inequalities rhs (Ax <= b)
     Matd B; // equality matrix (Bx = d)
     Vecd d; // equalities rhs (Bx = d)
+    uint n1; // number of integer constraints (x1,...,xn1 are integers)
+};
+
+class SparseMixedIntegerLinearProgram
+{
+
+public:
+    enum ConstraintType {LEQ=0, GEQ=1, EQ=2};
+
+    SparseMixedIntegerLinearProgram(const SVecd& c, const SMatd& A, const SVecd& b, const SMatd& B, const SVecd& d, const uint& n1)
+        : n(c.size()), m(b.size()), p(d.size()), c(c), A(A), b(b), B(B), d(d), n1(n1)
+    {
+        assert(A.rows() == m && A.cols() == n);
+        assert(B.rows() == p && B.cols() == n);
+        assert(n1 <= n);
+    }
+
+    /// MILP of dimension n with n1 integral constraints
+    SparseMixedIntegerLinearProgram(uint n, uint n1) : SparseMixedIntegerLinearProgram(SVecd(n),SMatd(0,n),SVecd(0),SMatd(0,n),SVecd(0),n1) {}
+
+    /// Sets the i-th coefficient of the objective gradient to ci
+    void setObjective(int i, double ci) {
+        this->c.coeffRef(i) = ci;
+    }
+
+    /// Adds an inequality or equality constraint to the problem
+    void addConstraint(const SVecd& coeffs, const double& rhs, const ConstraintType type = LEQ)
+    {
+        if (type == EQ)
+        {
+            p++;
+            d.conservativeResize(p);
+            B.conservativeResize(p, n);
+
+            for (SVecdIter it(coeffs); it; ++it) {
+                B.coeffRef(p-1, it.index()) = it.value();
+            }
+
+            d.coeffRef(p-1) = rhs;
+        }
+        else
+        {
+            m++;
+            b.conservativeResize(m);
+            A.conservativeResize(m, n);
+
+            for (SVecdIter it(coeffs); it; ++it) {
+                A.coeffRef(m-1, it.index()) = it.value();
+            }
+
+            b.coeffRef(m-1) = (type==LEQ)? rhs : -rhs;
+        }
+    }
+
+    inline const uint dimension() {return n;}
+
+    inline const uint nInequalities() {return m;}
+
+    inline const uint nEqualities() {return p;}
+
+    inline const uint nIntegerConstraints() {return n1;}
+
+    inline const bool isLP() {return n1==0;}
+
+    inline const bool isILP() {return n1==n;}
+
+    inline const SVecd& objectiveGradient() {return c;}
+
+    inline const SMatd& inequaltyMatrix() {return A;}
+
+    inline const SVecd& inequalityVector() {return b;}
+
+    inline const SMatd& equalityMatrix() {return B;}
+
+    inline const SVecd& equalityVector() {return d;}
+
+    inline void prune()
+    {
+        A.prune(EPSILON);
+        b.prune(EPSILON);
+        B.prune(EPSILON);
+        d.prune(EPSILON);
+        c.prune(EPSILON);
+    }
+
+    friend std::ostream& operator<< (std::ostream& out, const SparseMixedIntegerLinearProgram& lp) {
+        out << "============= Sparse Mixed Integer Linear Program ============" << std::endl;
+        //out << &lp << std::endl;
+        out << "n, m, p, n1: " << lp.n << ", " << lp.m << ", " << lp.p << ", " << lp.n1 << std::endl;
+        out << "c:\n" << lp.c.transpose() << std::endl;
+        out << "A (" << lp.A.rows() << " x " << lp.A.cols() << ")\n"  << lp.A << std::endl;
+        out << "b:\n" << lp.b.transpose() << std::endl;
+        out << "B (" << lp.B.rows() << " x " << lp.B.cols() << ")\n" << lp.B << std::endl;
+        out << "d:\n" << lp.d.transpose() << std::endl;
+        out << "==============================================================" << std::endl;
+        return out;
+    }
+
+
+private:
+    uint n; // dimension
+    uint m; // number of inequalities
+    uint p; // number of equalities
+    SVecd c; // objective function (gradient)
+    SMatd A; // inequality matrix (Ax <= b)
+    SVecd b; // inequalities rhs (Ax <= b)
+    SMatd B; // equality matrix (Bx = d)
+    SVecd d; // equalities rhs (Bx = d)
     uint n1; // number of integer constraints (x1,...,xn1 are integers)
 };
 }
